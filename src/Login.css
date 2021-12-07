@@ -1,0 +1,24 @@
+.LoginFrom , .addUserForm {
+
+    margin-top: 100px;
+    display: block;
+    background-color: rgb(157, 157, 157);
+    width: 400px;
+    height: 500px;
+    border-radius: 10px;
+  color: white;
+  }
+
+  .LoginFrom a{
+
+    color: rgb(131, 131, 6);
+    padding: 15px 0px; 
+    display: block;
+
+  }
+
+  .log-btn{
+
+    background-color: rgb(58, 170, 52);
+
+  }

@@ -1,38 +1,156 @@
 .App {
-  text-align: center;
+  /* text-align: center; */
+  font-family: 'Nunito', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+a{
+
+  text-decoration: none;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+input {
+  
+    outline: none;
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.horizantal-nav{
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.Add-User {
+
+  
+  margin-right: 30px;
+  /* margin-top: 12px; */
+  border: 1px solid white;
+  height: min-content;
+  padding: 0 10px;
+
+}
+
+.Add-User h1{
+
+    font-size: 20px;
+    /* margin-right: 30px; */
+    margin-top: 12px;
+
+}
+
+.bi-gear-fill {
+
+  font-size: 20px;
+  color: rgb(162, 167, 163);
+
+}
+
+.logo img, .user img{
+
+    margin:0 5px ;
+    width: 50px; 
+    height: 45px;
+
+}
+
+.user-icon-box
+{
+    margin-right:20px ;
+    color: white;
+}
+
+.user-btn{
+
+    background:none;
+    outline: none;
+    text-decoration: none;
+    border: none;
+}
+
+.user img{
+
+    border-radius: 50%;
+
+}
+
+.sidebar{
+  display: none;
+  width: 100px;
+  
+}
+
+.sidebar nav{
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  gap: 20px;
+  height: 94vh; 
+}
+
+.sidebar a{
+
+  letter-spacing: 1px;
+  padding: 5px 5px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.leads-container{
+
+
+  background-color: rgb(238, 238, 238);
+  height: max-content;
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.head-container{
+
+  margin: 20px 0;
+
 }
+
+.Content-heading h3{
+
+  margin-left: 20px;
+  font-size: 34px;
+  letter-spacing: 1px;
+  color: rgb(103, 181, 1);
+
+}
+
+.search-box{
+
+  margin-left: 20px;
+
+
+}
+
+.search-box input{
+
+    outline: none;
+    border: none;
+    padding: 3px;
+
+}
+
+.bi-search{
+
+  margin-left: 10px;
+
+}
+
+.add-user{
+
+  margin-right: 40px;
+
+}
+
+
+
+
+
+
