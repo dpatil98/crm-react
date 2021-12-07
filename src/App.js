@@ -30,9 +30,9 @@ function App() {
               <AddUser /> 
             </Route>
           
-            {/* <Route exact path="/">
+            <Route exact path="/">
             HOMe PAGE
-            </Route> */}
+            </Route>
             <Route Path="**">
                     404 NOT FOUND
             </Route>
