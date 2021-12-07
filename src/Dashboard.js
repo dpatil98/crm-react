@@ -19,19 +19,19 @@ export function Dashboard() {
                 <h1>Add User <i class="bi bi-person-plus-fill"></i> </h1>
             </div> */}
             <div className="Setting">
-              <h1><i class="bi bi-gear-fill"></i></h1>
+              <h1><i className="bi bi-gear-fill"></i></h1>
             </div>
             <div>
 
 
-              <div class="btn-group  user-icon-box">
+              <div className="btn-group  user-icon-box">
                 <button className=" user-btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                   <img src="https://www.w3schools.com/howto/img_avatar.png" aria-label="User-image" />
                 </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Profile <i class="bi bi-person-circle text-success"></i></a></li>
-                  <li><a class="dropdown-item" href="#">Log Out <i class="bi bi-box-arrow-right text-danger"></i></a></li>
-                  <li><Link className="dropdown-item" to="/AddUser">Add User <i class="bi bi-person-plus-fill text-primary"></i></Link></li>
+                <ul className="dropdown-menu">
+                  <li><a className="dropdown-item" href="#">Profile <i className="bi bi-person-circle text-success"></i></a></li>
+                  <li><a className="dropdown-item" href="#">Log Out <i className="bi bi-box-arrow-right text-danger"></i></a></li>
+                  <li><Link className="dropdown-item" to="/AddUser">Add User <i className="bi bi-person-plus-fill text-primary"></i></Link></li>
 
                 </ul>
               </div>
@@ -43,7 +43,7 @@ export function Dashboard() {
 
       <div className="d-flex">
         <div className="open-btn btn">
-          <button className=" btn-primary btn" onClick={Open}><i class="bi bi-menu-button"></i></button>
+          <button className=" btn-primary btn" onClick={Open}><i className="bi bi-menu-button"></i></button>
         </div>
       </div>
 

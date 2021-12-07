@@ -8,6 +8,7 @@ import { Component, useState } from 'react';
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { LoginForm } from './LoginForm';
+import { Dashboard } from './Dashboard';
 
 function App() {
   return (
@@ -43,62 +44,7 @@ function App() {
 }
 
 
-function Dashboard()
-{
-
-  const functions =["<Leads/>","<SystemRequest/>",",Contacts/>"];
-  
-  return(
-
-          <div className="dashboard-container">
-
-              <nav >
-                <div className="horizantal-nav bg-dark">
-                  <div className="logo">
-                      <img src="https://png.pngtree.com/element_pic/00/16/07/06577d261edb9ec.jpg" aria-label="LogoImage" />
-                  </div>
-                  <div className="user d-flex text-white">
-                      {/* <div className="Add-User" >
-                          <h1>Add User <i class="bi bi-person-plus-fill"></i> </h1>
-                      </div> */}
-                      <div className="Setting" >
-                          <h1><i class="bi bi-gear-fill"></i></h1>
-                      </div>
-                      <div>
-                          
-                           
-                          <div class="btn-group  user-icon-box">
-                                <button className=" user-btn dropdown-toggle text-white" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  <img src="https://www.w3schools.com/howto/img_avatar.png" aria-label="User-image" />
-                                </button>
-                                <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="#">Profile <i class="bi bi-person-circle text-success"></i></a></li>
-                                  <li><a class="dropdown-item" href="#">Log Out <i class="bi bi-box-arrow-right text-danger"></i></a></li>
-                                  <li><Link className="dropdown-item" to="/AddUser">Add User <i class="bi bi-person-plus-fill text-primary"></i></Link></li>
-                                  
-                                </ul>
-                          </div>
-
-                      </div>
-                  </div>
-                </div>
-              </nav>
-
-              <div className="d-flex">
-                <div className="open-btn btn">
-                    <button className=" btn-primary btn" onClick={Open}><i class="bi bi-menu-button"></i></button>
-                </div>
-              </div>
-              
-          </div>  
-
-        );
-
-
-}
-
-
-function Open()
+export function Open()
 {
  document.querySelector(".open-btn").style.display = "none";
   document.querySelector(".sidebar").style.display = "block";
@@ -122,7 +68,7 @@ function Sidebar()
   return(
     <div className="sidebar bg-dark">
       <nav>
-          <button className="btn bg-dark text-white" onClick={close} >Close <i class="bi text-danger bi-x-square-fill"></i></button>
+          <button className="btn bg-dark text-white" onClick={close} >Close <i className="bi text-danger bi-x-square-fill"></i></button>
           <hr className="text-white mt-0" />
           <Link to="/Leads">Leads</Link>
           <Link to="/ServiceRequest">Servive Request</Link>
@@ -196,17 +142,17 @@ function Leads()
                 </div>
                 <div className="leads-utilities d-flex justify-content-between">
                     <div className="search-box">
-                      <input type="text" aria-label="ssrach" placeholder="Search"  /><i class="bi bi-search"></i>
+                      <input type="text" aria-label="ssrach" placeholder="Search"  /><i className="bi bi-search"></i>
                     </div>
                     <div className="add-user">
-                    <button className="btn btn-primary"> <i class="bi bi-plus-square"></i> Add Lead</button>
+                    <button className="btn btn-primary"> <i className="bi bi-plus-square"></i> Add Lead</button>
                      </div>
                 </div>
                 
 
             </div>
             <div className="table-container">
-               <table class="table table-hover">
+               <table className="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -305,17 +251,17 @@ function ServiceRequest()
                 </div>
                 <div className="leads-utilities d-flex justify-content-between">
                     <div className="search-box">
-                      <input type="text" aria-label="ssrach" placeholder="Search"  /><i class="bi bi-search"></i>
+                      <input type="text" aria-label="ssrach" placeholder="Search"  /><i className="bi bi-search"></i>
                     </div>
                     <div className="add-user">
-                    <button className="btn btn-primary"> <i class="bi bi-plus-square"></i> Add Lead</button>
+                    <button className="btn btn-primary"> <i className="bi bi-plus-square"></i> Add Lead</button>
                      </div>
                 </div>
                 
 
             </div>
             <div className="table-container">
-               <table class="table table-hover">
+               <table className="table table-hover">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
@@ -397,7 +343,7 @@ function AddUser()
       </div>
       <br/>
       <div className="form-group">
-      <select class="form-select" aria-label="Default select example">
+      <select className="form-select" aria-label="Default select example">
         <option selected>Select Access Level</option>
         <option value="Admin">Admin</option>
         <option value="Manager<">Manager</option>
