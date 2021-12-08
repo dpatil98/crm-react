@@ -7,10 +7,15 @@ import {Link ,Route, Switch, Redirect} from 'react-router-dom' ;
 import { Component, useState } from 'react';
 
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { LoginForm } from './LoginForm';
-import { Dashboard } from './Dashboard';
+import { LoginForm } from './LoginForm.js';
+import { Dashboard } from './Dashboard.js';
+import { AddUser } from './AddUser.js';
 
 function App() {
+
+
+ 
+
   return (
     <div className="App ">
 
@@ -42,6 +47,7 @@ function App() {
     </div>
   );
 }
+
 
 
 export function Open()
@@ -292,78 +298,6 @@ function ServiceRequest()
               </table>
             </div>
         </div>
-
-        );
-
-}
-
-function AddUser()
-{
-
-  return(
-
-    <div className=" addUserForm container   text-center">
-      <div className="my-3 pt-3">
-        <i className="bi bi-person-circle text-success"></i>
-        <h2 className=""> Add User</h2>
-      </div>
-    
-   
-    <form method="post ">
-
-      <div className="form-group">
-        <label>First Name :</label>
-        <input type="textl" name="firstName" placeholder="First Name" required="FirstName" />
-      </div>
-
-      <br />
-
-      <div className="form-group">
-        <label>Last Name :</label>
-        <input type="text" name="LastNam" placeholder="Last Name" required/>
-      </div>
-
-      <br />
-      <div className="form-group">
-        <label>Email :</label>
-        <input type="Email" name="Password" placeholder="sample@gmail.com" required />
-      </div>
-
-      <br />
-
-
-      <div className="form-group">
-        <label>Password :</label>
-        <input type="password" name="Password" placeholder="******" required="password" />
-      </div>
-      <br />
-      <div className="form-group">
-        <label> Confirm Password :</label>
-        <input type="password" name="CPassword" placeholder="******" required="password" />
-      </div>
-      <br/>
-      <div className="form-group">
-      <select className="form-select" aria-label="Default select example">
-        <option selected>Select Access Level</option>
-        <option value="Admin">Admin</option>
-        <option value="Manager<">Manager</option>
-        <option value="Employee">Employee</option>
-      </select>
-      </div> 
-
-      <br />
-      <div className="text-danger">
-
-      </div>
-      <br />
-      <input className=" btn mb-4 px-4 log-btn " type="submit" name="submit" value="Add User" />
-
-    
-      
-    </form>
-
-  </div>
-
 
         );
 
