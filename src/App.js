@@ -19,8 +19,8 @@ function App() {
   return (
     <div className="App ">
 
-      {/* <LoginForm/>    */}
-      <Dashboard/>
+      <LoginForm/>   
+      {/* <Dashboard/>
       <div className="d-flex">
           < Sidebar/> 
 
@@ -43,8 +43,8 @@ function App() {
                     404 NOT FOUND
             </Route>
           </Switch>
-     </div>
-    </div>
+     </div>*/}
+    </div> 
   );
 }
 

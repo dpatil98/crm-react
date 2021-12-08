@@ -11,13 +11,42 @@ console.log("Validation Form ", values);
 };
 
 
+const Login = async (values) =>{
+
+
+  console.log("Logging In",values);
+ 
+  //key is not used while makin obj bcus both key and value name are same
+  console.log(values);
+    await  fetch("http://localhost:9000/users/Login",{
+      method : "POST",
+      body: JSON.stringify({
+                            password   :values.password,                          
+                            email       :values.email,
+                           }),
+      headers :{
+          'Content-Type' : 'application/json'
+      }
+  
+      }).then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch( (e) => console.log(e));
+    
+
+
+};
+
+
 export function LoginForm() {
 
   const formik = useFormik({
 
       initialValues: {email:"" ,password:""},
       validate : validateform ,
-      onSubmit : (values) =>{console.log("OnSubmit",values);}
+      onSubmit : (values) =>{
+                            console.log("OnSubmit",values)
+                            Login(values);
+                           }
 
   });
 
