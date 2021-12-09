@@ -11,6 +11,9 @@ import { LoginForm } from './LoginForm.js';
 import { Dashboard } from './Dashboard.js';
 import { AddUser } from './AddUser.js';
 
+
+const URL = "http://localhost:3000/Dashboard";
+
 function App() {
 
 
@@ -19,31 +22,24 @@ function App() {
   return (
     <div className="App ">
 
-      <LoginForm/>   
+      {/* <LoginForm/>    */}
       {/* <Dashboard/>
       <div className="d-flex">
           < Sidebar/> 
-
+      </div>*/}
           <Switch>
             
-            <Route path="/Leads">
-              < Leads/> 
+            <Route path="/Dashboard">
+              <Dashboard/>
             </Route>
-            <Route path="/ServiceRequest">
-              <ServiceRequest /> 
-            </Route>
-            <Route path="/AddUser">
-              <AddUser /> 
-            </Route>
-          
             <Route exact path="/">
-            HOMe PAGE
+            < LoginForm/>
             </Route>
             <Route Path="**">
                     404 NOT FOUND
             </Route>
           </Switch>
-     </div>*/}
+     
     </div> 
   );
 }
@@ -66,19 +62,19 @@ function close()
 
 }
 
-function Sidebar()
+export function Sidebar()
 {
 
-  
+
 
   return(
     <div className="sidebar bg-dark">
       <nav>
           <button className="btn bg-dark text-white" onClick={close} >Close <i className="bi text-danger bi-x-square-fill"></i></button>
           <hr className="text-white mt-0" />
-          <Link to="/Leads">Leads</Link>
-          <Link to="/ServiceRequest">Servive Request</Link>
-          <Link to="/Contacts">Contacts</Link>
+          <Link to="/Dashboard/Leads">Leads</Link>
+          <Link to="/Dashboard/ServiceRequest">Servive Request</Link>
+          <Link to="/Dashboard/Contacts">Contacts</Link>
       </nav>
     </div>
 
@@ -88,7 +84,7 @@ function Sidebar()
 
 
 
-function Leads()
+export function Leads()
 {
 
   const users= [
@@ -197,7 +193,7 @@ function Leads()
  
 
 
-function ServiceRequest()
+export function ServiceRequest()
 {
 
   const users= [

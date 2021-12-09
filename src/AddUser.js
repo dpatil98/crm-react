@@ -8,7 +8,7 @@ const formValidation = (values) =>
     console.log("Validation", values);
 
 
-    if(values.Password != values.CPassword )
+    if(values.Password !== values.CPassword )
     {
 
         console.log("ad",values.Password);
@@ -25,7 +25,7 @@ const registration = async (values) =>{
              
               //key is not used while makin obj bcus both key and value name are same
               console.log(values);
-                await  fetch("http://localhost:9000/users/Signup",{
+              const result=  await  fetch("http://localhost:9000/users/Signup",{
                   method : "POST",
                   body: JSON.stringify({firstName  :values.FirstName,
                                         lastName   :values.LastName,
@@ -34,13 +34,14 @@ const registration = async (values) =>{
                                         email       :values.Email,
                                        }),
                   headers :{
+                      'x-auth-token' : `${localStorage.getItem("token")}`,
                       'Content-Type' : 'application/json'
                   }
               
-                  }).then((response) =>console.log(response))
+                  }).then((response) =>response.json())
                   .catch( (e) => console.log(e));
                 
-
+                  console.log(result.message);
 
 };
 

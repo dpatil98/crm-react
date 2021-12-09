@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
-import {Link } from 'react-router-dom' ;
-
+import { createContext, useContext, useState } from 'react';
+import {Link ,useHistory  } from 'react-router-dom' ;
 
 
 const validateform = (values) => {
@@ -11,33 +11,9 @@ console.log("Validation Form ", values);
 };
 
 
-const Login = async (values) =>{
-
-
-  console.log("Logging In",values);
- 
-  //key is not used while makin obj bcus both key and value name are same
-  console.log(values);
-    await  fetch("http://localhost:9000/users/Login",{
-      method : "POST",
-      body: JSON.stringify({
-                            password   :values.password,                          
-                            email       :values.email,
-                           }),
-      headers :{
-          'Content-Type' : 'application/json'
-      }
-  
-      }).then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch( (e) => console.log(e));
-    
-
-
-};
-
-
 export function LoginForm() {
+
+   const history = useHistory();
 
   const formik = useFormik({
 
@@ -49,6 +25,42 @@ export function LoginForm() {
                            }
 
   });
+   
+
+    const Login = async (values) =>{
+
+      
+
+      console.log("Logging In",values);
+      // var data={};
+      //key is not used while makin obj bcus both key and value name are same
+      
+      const re= await fetch("http://localhost:9000/users/Login",{
+          method : "POST",
+          body: JSON.stringify({
+                                password   :values.password,                          
+                                email       :values.email,
+                              }),
+          headers :{
+              'Content-Type' : 'application/json'
+          }
+      
+          }).then((response) => response.json())
+          .catch( (e) => console.log(e));
+                  
+          console.log("re",re.token);
+
+         if(re.token)
+              {
+                localStorage.setItem("token", re.token);
+                history.push('/Dashboard');
+                
+              }
+
+          
+          
+    };
+
 
 
   return (
