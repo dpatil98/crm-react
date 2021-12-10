@@ -1,22 +1,68 @@
 import { useFormik } from "formik";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import * as yup from 'yup';
+import { object } from "yup";
 
 
+// const formValidation = (values) =>
+// {
 
-const formValidation = (values) =>
+//     console.log("Validation", values);
+
+
+//     if(values.Password !== values.CPassword )
+//     {
+
+//         console.log("ad",values.Password);
+
+//     }
+
+
+// };
+
+
+const formValidation =  yup.object({
+
+  FirstName: yup.string().required("You Forgot To Write First Name😱"),
+  LastName: yup.string().required("You Forgot To Write Last Name😱"),
+  Email: yup.string().required("You Forgot To Write Email 🥺🥺"),
+  Password: yup.string().required("You Forgot To Write Password 😱"),
+  CPassword: yup.string().required("You Forgot To Confirm Your Password 😱"),
+  AccessLevel : yup.string().required("You Forgot To Give Access Level😱")
+                            .max(9,"You Forgot To Give Access Level😱")
+});
+
+
+ 
+export function AddUser() 
 {
 
-    console.log("Validation", values);
+      const history = useHistory();
+      const [message ,setMessage] = useState([]);
+
+      
+      if(!localStorage.getItem("token"))
+      {
+        history.push("/");
+      }
 
 
-    if(values.Password !== values.CPassword )
-    {
+    const {handleSubmit , handleChange , handleBlur, values, errors, touched} = useFormik ({
 
-        console.log("ad",values.Password);
+    initialValues : {FirstName:"", LastName:"", Email:"", Password:"", CPassword:"", AccessLevel:""},
+    // validate : formValidation,
+    validationSchema: formValidation,
+    onSubmit : (values) =>{
+                            console.log("OnSubmit",values);
+                            registration(values);
+                            
+                          }
+    
+    });
 
-    }
+    
 
-
-};
 
 const registration = async (values) =>{
 
@@ -38,26 +84,22 @@ const registration = async (values) =>{
                       'Content-Type' : 'application/json'
                   }
               
-                  }).then((response) =>response.json())
+                  }).then(respone => respone.json() )
                   .catch( (e) => console.log(e));
                 
+        
+                  
                   console.log(result.message);
+                  console.log(result.status);
+                  if(result.status==="200"){ window.location.reload(); alert("sucess") }
+
+                  setMessage(`${result.message} 🤨`);
 
 };
 
-export function AddUser() 
-{
+       
+        
 
-    const formik = useFormik ({
-
-    initialValues : {FirstName:"", LastName:"", Email:"", Password:"", CPassword:"", AccessLevel:""},
-    validate : formValidation,
-    onSubmit : (values) =>{
-                            console.log("OnSubmit",values);
-                            registration(values);
-                          }
-    
-    });
 
   return (
 
@@ -68,86 +110,105 @@ export function AddUser()
       </div>
 
 
-      <form onSubmit={formik.handleSubmit} >
+      <form onSubmit={handleSubmit} >
 
-        <div className="form-group">
+        <div className="form-group mt-4">
           <label>First Name :</label>
           <input 
                 type="text"    
-                value={formik.values.FirstName} 
-                onChange={formik.handleChange} 
-                onBlur={formik.handleBlur}
+                value={values.FirstName} 
+                onChange={handleChange} 
+                onBlur={handleBlur}
                 name="FirstName"     
                 placeholder="First Name" 
                 required />
         </div>
+        <div className="text-danger px-5 position-absolute">
+            <div >
+                {errors.FirstName && touched.FirstName && errors.FirstName}
+            </div>
+        </div>
 
-        <br />
-
-        <div className="form-group">
+        <div className="form-group mt-4">
           <label>Last Name :</label>
           <input 
                 type="text" 
-                value={formik.values.LastName} 
-                onChange={formik.handleChange} 
-                onBlur={formik.handleBlur}
+                value={values.LastName} 
+                onChange={handleChange} 
+                onBlur={handleBlur}
                 name="LastName" 
                 placeholder="Last Name" 
                 required />
         </div>
-
-        <br />
-        <div className="form-group">
+        <div className="text-danger px-5 position-absolute">
+            <div >
+                {errors.LastName && touched.LastName && errors.LastName }
+            </div>
+        </div>
+        
+        <div className="form-group mt-4">
           <label>Email :</label>
           <input 
                 type="Email" 
-                value={formik.values.Email} 
-                onChange={formik.handleChange} 
-                onBlur={formik.handleBlur}
+                value={values.Email} 
+                onChange={handleChange} 
+                onBlur={handleBlur}
                 name="Email" 
                 placeholder="sample@gmail.com" 
                 required />
         </div>
 
-        <br />
+        <div className="text-danger px-5 position-absolute">
+            <div >
+                { errors.Email && touched.Email && errors.Email }
+            </div>
+        </div>
 
-
-        <div className="form-group">
+        <div className="form-group mt-4">
           <label>Password :</label>
           <input 
                 type="password" 
-                value={formik.values.Password} 
-                onChange={formik.handleChange} 
-                onBlur={formik.handleBlur}
+                value={values.Password} 
+                onChange={handleChange} 
+                onBlur={handleBlur}
                 name="Password" 
+                autoComplete="new-password"
                 placeholder="******" 
                 required />
         </div>
+      
+        <div className="text-danger px-5 position-absolute">
+            <div >
+                {errors.Password && touched.Password && errors.Password }
+            </div>
+        </div>
 
-
-        <br />
-
-
-        <div className="form-group">
+        <div className="form-group mt-4">
           <label> Confirm Password :</label>
           <input 
                 type="password" 
-                value={formik.values.CPassword} 
-                onChange={formik.handleChange} 
-                onBlur={formik.handleBlur}
+                value={values.CPassword} 
+                onChange={handleChange} 
+                onBlur={handleBlur}
                 name="CPassword" 
+                autoComplete="new-password"
                 placeholder="******" 
                 required />
         </div>
 
+        <div className="text-danger px-5 position-absolute">
+            <div >
+                { errors.CPassword && touched.CPassword&& errors.CPassword }
+            </div>
+        </div>
 
-        <br />
+       
 
 
-        <div className="form-group">
-          <select value={formik.values.AccessLevel} 
-                  onChange={formik.handleChange} 
-                  onBlur={formik.handleBlur} 
+        <div className="form-group mt-4 ">
+          <select value={values.AccessLevel} 
+                  onChange={handleChange} 
+                  onBlur={handleBlur} 
                   name="AccessLevel"
                   className="form-select" 
                   aria-label="Default select example" >
@@ -158,13 +219,17 @@ export function AddUser()
           </select>
         </div>
 
-        <br />
-        <div className="text-danger">
-
+        <div className="text-danger px-5 position-absolute">
+            <div >
+                {errors.AccessLevel && touched.AccessLevel && errors.AccessLevel}
+            </div>
         </div>
-        <br />
-        <input className=" btn mb-4 px-4 log-btn " type="submit" name="submit" value="Add User" />
-     
+       <div className="text-warning mt-4 text-center ">
+                {message} 
+        </div>
+        <input className=" btn mt-3 px-4 log-btn " type="submit" name="submit" value="Add User" />
+    
+        
 
 
 

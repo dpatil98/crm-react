@@ -1,6 +1,7 @@
 
 
 
+import { useHistory } from 'react-router-dom';
 import {Link ,Route, Switch, Redirect} from 'react-router-dom' ;
 import { AddUser } from './AddUser.js';
 import { Leads ,ServiceRequest, Sidebar ,Open } from './App.js' ;
@@ -8,6 +9,12 @@ import { Logout } from './Logout.js';
 
 export function Dashboard() {
 
+    const history = useHistory ();  
+
+    if(!localStorage.getItem("token"))
+    {
+      history.push("/");
+    }
   
 
   return (
