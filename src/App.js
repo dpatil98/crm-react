@@ -2,6 +2,7 @@
 import './App.css';
 import './Login.css';
 import './Adduser.css';
+import './ForgotPass.css';
 
 import {Link ,Route, Switch, Redirect} from 'react-router-dom' ;
 import { Component, useState } from 'react';
@@ -10,9 +11,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { LoginForm } from './LoginForm.js';
 import { Dashboard } from './Dashboard.js';
 import { AddUser } from './AddUser.js';
+import { ForgotPassword, ResetPassword } from './ForgotPassword';
 
 
-const URL = "http://localhost:3000/Dashboard";
+
+export const URL = "http://localhost:3000/Dashboard";
 
 function App() {
 
@@ -33,7 +36,13 @@ function App() {
               <Dashboard/>
             </Route>
             <Route exact path="/">
-            < LoginForm/>
+              < LoginForm/> 
+            </Route>
+            <Route exact path="/ForgotPassword">
+              <  ForgotPassword />
+            </Route>
+            <Route exact path="/reset-password">
+              < ResetPassword />
             </Route>
             <Route Path="**">
                     404 NOT FOUND
@@ -298,5 +307,6 @@ export function ServiceRequest()
         );
 
 }
+
 
 export default App;

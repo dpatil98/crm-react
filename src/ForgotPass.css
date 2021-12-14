@@ -1,0 +1,53 @@
+.fotgotpass-container{
+
+    margin-top: 100px;
+    /* display: block; */
+    background-color: rgb(55, 54, 54);
+    width: 400px;
+    height: 300px;
+    border-radius: 10px;
+    color: white;
+            
+}
+
+.fotgotpass-container input{
+
+border:none;
+outline: none;
+            
+}
+
+.fotgotpass-container  >form > .form-group{
+
+
+
+    padding: 0 50px;
+}
+
+
+
+.resetpass-container{
+
+    margin-top: 100px;
+    /* display: block; */
+    background-color: rgb(55, 54, 54);
+    width: 400px;
+    height: 300px;
+    border-radius: 10px;
+    color: white;
+            
+}
+
+.resetpass-container input{
+
+border:none;
+outline: none;
+            
+}
+
+.resetpass-container  >form > .form-group{
+
+   
+
+    padding: 0 0px;
+}

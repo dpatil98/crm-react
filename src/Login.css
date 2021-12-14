@@ -6,12 +6,12 @@
     width: 400px;
     height: 500px;
     border-radius: 10px;
-  color: white;
+    color: white;
   }
 
   .LoginFrom a{
 
-    color: rgb(131, 131, 6);
+    color: rgb(72, 128, 250);
     padding: 15px 0px; 
     display: block;
 
