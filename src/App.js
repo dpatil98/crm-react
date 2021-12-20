@@ -1,26 +1,29 @@
 
 import './App.css';
-import './Login.css';
-import './Adduser.css';
-import './ForgotPass.css';
+import './Users/Login.css';
+import './Users/Adduser.css';
+import './Users/ForgotPass.css';
 
 import {Link ,Route, Switch, Redirect} from 'react-router-dom' ;
-import { Component, useState } from 'react';
 
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { LoginForm } from './LoginForm.js';
-import { Dashboard } from './Dashboard.js';
-import { AddUser } from './AddUser.js';
-import { ForgotPassword, ResetPassword } from './ForgotPassword';
+import { LoginForm } from './Users/LoginForm.js';
+import { Dashboard } from './Dashboard/Dashboard.js';
+// import { AddUser } from './Users/AddUser.js';
+import { ForgotPassword, ResetPassword } from './Users/ForgotPassword';
 
 
 
+
+ 
 export const URL = "http://localhost:3000/Dashboard";
 
 function App() {
 
 
- 
+
+
+
 
   return (
     <div className="App ">
@@ -30,14 +33,13 @@ function App() {
       <div className="d-flex">
           < Sidebar/> 
       </div>*/}
-          <Switch>
-            
+          <Switch>      
             <Route path="/Dashboard">
-              <Dashboard/>
+              < Dashboard/>
             </Route>
             <Route exact path="/">
               < LoginForm/> 
-            </Route>
+            </Route>     
             <Route exact path="/ForgotPassword">
               <  ForgotPassword />
             </Route>
@@ -91,115 +93,6 @@ export function Sidebar()
 
 }
 
-
-
-export function Leads()
-{
-
-  const users= [
-    {
-      id:"01",
-      FirstName:"mark",
-      LastName :"Otto",
-      Status:"Active",
-      Email:"a@gmail.com",
-      Assig:"",
-      Date:"02/09/2021"
-  
-    },
-    {
-      id:"02",
-      FirstName:"mark",
-      LastName :"Otto",
-      Status:"Active",
-      Email:"a@gmail.com",
-      Assig:"",
-      Date:"02/09/2021"
-  
-    },
-    {
-      id:"03",
-      FirstName:"mark",
-      LastName :"Otto",
-      Status:"Active",
-      Email:"a@gmail.com",
-      Assig:"",
-      Date:"02/09/2021"
-  
-    },
-    {
-      id:"04",
-      FirstName:"mark",
-      LastName :"Otto",
-      Status:"Active",
-      Email:"a@gmail.com",
-      Assig:"",
-      Date:"02/09/2021"
-  
-    },
-  
-  
-  
-  ];
-  
-
-  return(
-
-        <div className="leads-container container">
-            <div className="head-container">
-
-                <div className="Content-heading">
-                  <h3>Leads</h3>
-                </div>
-                <div className="leads-utilities d-flex justify-content-between">
-                    <div className="search-box">
-                      <input type="text" aria-label="ssrach" placeholder="Search"  /><i className="bi bi-search"></i>
-                    </div>
-                    <div className="add-user">
-                    <button className="btn btn-primary"> <i className="bi bi-plus-square"></i> Add Lead</button>
-                     </div>
-                </div>
-                
-
-            </div>
-            <div className="table-container">
-               <table className="table table-hover">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Assigned Employee</th>
-                    <th scope="col">Created Date</th>
-                  </tr>
-                </thead>
-                <tbody className="leads-tableBody">
-      
-                  {users.map(e => (
-
-                    <tr>
-                      <th scope="row">{e.id}</th>
-                      <td>{e.FirstName}</td>
-                      <td>Status</td>
-                      <td>@mdo</td>
-                      <td>Otto</td>
-                      <td>@mdo</td>
-                    </tr>
-
-
-                  ))}
-               
-                </tbody>
-              </table>
-            </div>
-        </div>
-
-        );
-
-}
-
- 
 
 
 export function ServiceRequest()
@@ -309,4 +202,4 @@ export function ServiceRequest()
 }
 
 
-export default App;
+export default App ;

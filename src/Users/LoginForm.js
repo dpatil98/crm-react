@@ -1,7 +1,11 @@
 import { useFormik } from 'formik';
-import { createContext, useContext, useState } from 'react';
+import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import {Link ,useHistory  } from 'react-router-dom' ;
 import * as yup from 'yup';
+
+
+
 
 
 const formValidation =  yup.object({
@@ -10,19 +14,17 @@ const formValidation =  yup.object({
                     password: yup.string().required("You Forgot To Write Password 😱"),
 });
 
-// const validateform = (values) => {
 
-// console.log("Validation Form ", values);
-
-
-// };
 
 
 export function LoginForm() {
 
+
+  const [cookies, setCookie ,removeCookie] = useCookies(['user']);
   const history = useHistory();
   const [message,  setMessage] = useState(null);
 
+  console.log("User Before Login",cookies.user);
   const {handleSubmit , handleChange , handleBlur, values, errors, touched}= useFormik({
 
       initialValues: {email:"" ,password:""},
@@ -39,8 +41,7 @@ export function LoginForm() {
     const Login = async (values) =>{
 
       console.log("Logging In",values);
-      // var data={};
-      //key is not used while makin obj bcus both key and value name are same
+  
       
       const re= await fetch("http://localhost:9000/users/Login",{
           method : "POST",
@@ -57,10 +58,13 @@ export function LoginForm() {
                   
           console.log("re",re.token);
 
-          if(re.token)
+          if(re.token && re.user)
               {
-                localStorage.setItem("token", re.token);
-                history.push('/Dashboard');            
+                setCookie("user",re.user);
+                setCookie("token", re.token);
+                // localStorage.setItem("token", re.token);
+                history.push('/Dashboard/Leads');  
+                console.log("Cookies",cookies.user);         
               }
           else{
                 

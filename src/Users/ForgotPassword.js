@@ -13,7 +13,6 @@ const formValidation =  yup.object({
 
 export function ForgotPassword() {
 
-    const history = useHistory();
     const [message,  setMessage] = useState(null);
 
     const { handleSubmit, handleChange, handleBlur, values, errors, touched } = useFormik({
@@ -115,9 +114,6 @@ const ResetPasswordConfirmation =  yup.object({
             .max(20,"Maximum length is 20 😅")
             .oneOf([yup.ref('Password'), null], 'Passwords must match')
 });
-
-
-
 
 
 export function ResetPassword() {
