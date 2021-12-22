@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import * as yup from 'yup';
 
 
@@ -40,12 +41,13 @@ export function AddUser()
 
       const history = useHistory();
       const [message ,setMessage] = useState([]);
+      const [cookie ,setCookie ] = useCookies();
 
       
-      if(!localStorage.getItem("token"))
-      {
-        history.push("/");
-      }
+      if(!cookie.token || !cookie.user)
+    {
+      history.push("/");
+    }
 
 
     const {handleSubmit , handleChange , handleBlur, values, errors, touched} = useFormik ({
@@ -80,7 +82,9 @@ const registration = async (values) =>{
                                         email       :values.Email,
                                        }),
                   headers :{
-                      'x-auth-token' : `${localStorage.getItem("token")}`,
+                      'x-auth-token' : `${cookie.token}`,
+                      'x-auth-access' : `${cookie.user.access_lvl}`,
+                      'x-auth-mode' : 'addUser',
                       'Content-Type' : 'application/json'
                   }
               

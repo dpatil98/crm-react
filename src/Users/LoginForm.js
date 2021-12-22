@@ -20,7 +20,7 @@ const formValidation =  yup.object({
 export function LoginForm() {
 
 
-  const [cookies, setCookie ,removeCookie] = useCookies(['user']);
+  const [cookies, setCookie ,removeCookie] = useCookies();
   const history = useHistory();
   const [message,  setMessage] = useState(null);
 
@@ -43,7 +43,7 @@ export function LoginForm() {
       console.log("Logging In",values);
   
       
-      const re= await fetch("http://localhost:9000/users/Login",{
+      let re= await fetch("http://localhost:9000/users/Login",{
           method : "POST",
           body: JSON.stringify({
                                 password   :values.password,                          
@@ -63,6 +63,7 @@ export function LoginForm() {
                 setCookie("user",re.user);
                 setCookie("token", re.token);
                 // localStorage.setItem("token", re.token);
+                re=null; //re null bcus it was assigning user cookie even after logout
                 history.push('/Dashboard/Leads');  
                 console.log("Cookies",cookies.user);         
               }

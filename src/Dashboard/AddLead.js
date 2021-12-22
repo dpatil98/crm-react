@@ -26,7 +26,7 @@ export function AddLead()
       const [cookie ,setCookie ] = useCookies();
 
       
-      if(!cookie.token || !cookie.user)
+    if(!cookie.token || !cookie.user)
     {
       history.push("/");
     }
@@ -65,6 +65,7 @@ const registration = async (values) =>{
                                        }),
                   headers :{
                       'x-auth-token' : `${cookie.token}`,
+                      'x-auth-mode' : 'addLead',
                       'Content-Type' : 'application/json'
                   }
               

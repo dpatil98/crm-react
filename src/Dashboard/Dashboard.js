@@ -30,10 +30,12 @@ export function Dashboard() {
     
       removeCookie('user');
       removeCookie('token');
-      localStorage.clear();
+      // localStorage.clear();
       history.push("/");
       
     }
+
+
   return (
 
     <div className="dashboard-container">
@@ -65,11 +67,19 @@ export function Dashboard() {
                 </button>
                 <ul className="dropdown-menu">
                   
-                  <li>Profile <i className="bi bi-person-circle text-success"></i></li>
+                  <li className="dropdown-item" style={{ cursor: 'pointer' }} >Profile <i className="bi bi-person-circle text-success"></i></li>
                   {/* <li><a className="dropdown-item" href="#">Log Out <i className="bi bi-box-arrow-right text-danger"></i></a></li> */}
                   {/* <li onClick={Logout}><Link className="dropdown-item" to="/Dashboard/Logout">Log Out<i className="bi bi-box-arrow-right text-danger"></i></Link></li> */}
-                  <li onClick={Logout}>Log Out  <i className="bi bi-box-arrow-right text-danger"></i></li>
-                  <li><Link className="dropdown-item" to="/Dashboard/AddUser">Add User <i className="bi bi-person-plus-fill text-primary"></i></Link></li>
+                  <li className="dropdown-item" style={{ cursor: 'pointer' }} onClick={Logout}>Log Out  <i className="bi bi-box-arrow-right text-danger"></i></li>
+                  <li> 
+                    { 
+                    
+                      (cookie.user.access_lvl === ("Admin" || "Manager") )
+                      ? <Link className="dropdown-item" to="/Dashboard/AddUser" >Add User <i className="bi bi-person-plus-fill text-primary"></i></Link>
+                      : <Link className="dropdown-item" to="/" style={{ pointerEvents: 'none' }}> Add User <i className="bi bi-person-plus-fill text-primary"></i></Link>
+                    }
+                    </li>
+                  
           
                 </ul>
               </div>
