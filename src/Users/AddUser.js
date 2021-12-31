@@ -218,7 +218,7 @@ const registration = async (values) =>{
                   aria-label="Default select example" >
             <option defaultValue>Select Access Level</option>
             <option value="Admin">Admin</option>
-            <option value="Manager<">Manager</option>
+            <option value="Manager">Manager</option>
             <option value="Employee">Employee</option>
           </select>
         </div>

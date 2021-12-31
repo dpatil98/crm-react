@@ -60,8 +60,8 @@ export function LoginForm() {
 
           if(re.token && re.user)
               {
-                setCookie("user",re.user);
-                setCookie("token", re.token);
+                setCookie("user",re.user ,{maxAge: 3600}); //in sec //3600=1hr
+                setCookie("token", re.token ,{maxAge: 3600});
                 // localStorage.setItem("token", re.token);
                 re=null; //re null bcus it was assigning user cookie even after logout
                 history.push('/Dashboard/Leads');  

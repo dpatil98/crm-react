@@ -13,7 +13,8 @@ const formValidation =  yup.object({
   Email: yup.string().required("You Forgot To Write Email 🥺🥺"),
   AssignedEmp: yup.string().required("Wait we havnt assigned a employee 😱"),
   Status : yup.string().required("You Forgot To Give Access Level😱")
-                            .max(9,"You Forgot To Add Status😱")
+                            .max(9,"You Forgot To Add Status😱"),
+ 
 });
 
 
@@ -34,13 +35,12 @@ export function AddLead()
 
     const {handleSubmit , handleChange , handleBlur, values, errors, touched} = useFormik ({
 
-    initialValues : {FirstName:"", LastName:"", Email:"", AssignedEmp:`${cookie.user.firstName} ${cookie.user.lastName}`, Status:"" },
+    initialValues : {FirstName:"", LastName:"", Email:"", AssignedEmp:`${cookie.user.firstName} ${cookie.user.lastName}`, Status:""},
     // validate : formValidation,
     validationSchema: formValidation,
     onSubmit : (values) =>{
                             console.log("OnSubmit",values);
-                            registration(values);
-                            
+                            registration(values);                            
                           }
     
     });
@@ -153,7 +153,8 @@ const registration = async (values) =>{
           <label>Assigned Emp :</label>
           <input 
                 type="text" 
-                value={values.AssignedEmp} 
+                defaultValue={values.AssignedEmp} 
+                // value=
                 // onChange={handleChange} 
                 // onBlur={handleBlur}
                 name="AssignedEmp"          
@@ -166,27 +167,6 @@ const registration = async (values) =>{
                 {errors.Password && touched.Password && errors.Password }
             </div>
         </div>
-
-        {/* <div className="form-group mt-4">
-          <label> Status</label>
-          <input 
-                type="text" 
-                value={values.CPassword} 
-                onChange={handleChange} 
-                onBlur={handleBlur}
-                name="Status"            
-                placeholder="Status" 
-                required />
-        </div>
-
-        <div className="text-danger px-5 position-absolute">
-            <div >
-                { errors.CPassword && touched.CPassword&& errors.CPassword }
-            </div>
-        </div> */}
-
-       
-
 
         <div className="form-group mt-4 ">
           <select value={values.Status} 
@@ -214,12 +194,9 @@ const registration = async (values) =>{
        <div className="text-warning mt-4 text-center ">
                 {message} 
         </div>
-        <input className=" btn mt-3 px-4 log-btn " type="submit" name="submit" value="Add User" />
-    
+        <input className=" btn mt-3 px-4 log-btn " type="submit" name="submit" value="Add Lead" />
+        {/* <button type="submit" onClick={() => handleSubmit}>Add Lead</button> */}
         
-
-
-
       </form>
 
     </div>
