@@ -11,13 +11,14 @@ const formValidation =  yup.object({
   LastName: yup.string().required("You Forgot To Write Last Name😱"),
   Email: yup.string().required("You Forgot To Write Email 🥺🥺"),
   AssignedEmp: yup.string().required("Wait we havnt assigned a employee 😱"),
-  Status : yup.string().required("You Forgot To Give Access Level😱")
-                            .max(13,"You Forgot To Add Status😱"),
+  Status : yup.string().required("You Forgot To Add Status😱")
+                            .max(13,"You Forgot To Add Status😱"), 
+  // ShortDesc: yup.string().required("Description is empty"), //add ShortDesc to formik after removing comment                              
   Date: yup.date().required("Please Enter Valid date")
 });
 
 
-export function Leads() {
+export function ServiceRequest() {
   const [cookie ,setCookie ] = useCookies();
 
 
@@ -46,22 +47,12 @@ export function Leads() {
     //useEfeect for gettig all leads only once
   useEffect( async ()=>{ 
 
-      await fetch("http://localhost:9000/Dashboard/Leads",{
+      await fetch("http://localhost:9000/Dashboard/ServiceRequests",{
       method : "GET"  
       }).then((response) => response.json())
         .then(data => setCustomers(data))
         .catch( (e) => console.log(e));
       
-      // if(re.Status==="404")
-      // {
-      // history.push('/**');
-      // }
-      // else{
-      // //  setData(re.User.email)
-      //   values.Email=re.User.email;
-      //   console.log("Link Is Valid",re);
-      //   console.log("Email Is ",values.Email);
-      // }
     
   },[]);
 
@@ -76,6 +67,7 @@ export function Leads() {
     values.Email=currentValues.email;
     values.AssignedEmp=currentValues.assignedEmp;
     values.Status=currentValues.status;
+    // values.ShortDesc=currentValues.shortDesc;
     values.Date=currentValues.date;
     console.log("From Effect",values);
     }
@@ -86,7 +78,7 @@ const DeleteThisLead = async (currentLead) =>{
 
   console.log("Deleting... ",currentLead);
 
-  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteLead",{
+  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteServiceReq",{
       method : "POST",
       body: JSON.stringify({
                             id  :currentLead._id,
@@ -122,13 +114,14 @@ const updatingLead = async (values) =>{
   console.log("Updating... ",values);
  
   console.log(values);
-  const result=  await  fetch("http://localhost:9000/Dashboard/EditLead",{
+  const result=  await  fetch("http://localhost:9000/Dashboard/EditServiceReq",{
       method : "POST",
       body: JSON.stringify({
                             id          :values.ID,
                             firstName   :values.FirstName,
                             lastName    :values.LastName,
                             assignedEmp :values.AssignedEmp,
+                            // shortDesc   :values.ShortDesc,
                             status      :values.Status,
                             email       :values.Email,
                             date        :values.Date,
@@ -158,14 +151,11 @@ const updatingLead = async (values) =>{
       <div className="head-container">
 
         <div className="Content-heading">
-          <h3>Leads</h3>
+          <h3>Service Requests</h3>
         </div>
         <div className="leads-utilities d-flex justify-content-between">
           <div className="search-box">
             <input type="text" aria-label="ssrach" placeholder="Search" /><i className="bi bi-search"></i>
-          </div>
-          <div className="add-user">
-            <Link to="/Dashboard/Leads/AddLead"><button className="btn btn-primary"> <i className="bi bi-plus-square"></i>Add Leads</button></Link>
           </div>
         </div>
 
@@ -175,8 +165,9 @@ const updatingLead = async (values) =>{
         <table className="table table-hover">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th scope="col">ReqestID</th>
+              <th scope="col">Client Name</th>
+              <th scope="col">Short Desc</th>
               <th scope="col">Status</th>
               <th scope="col">Email</th>
               <th scope="col">Assigned Employee</th>
@@ -203,6 +194,7 @@ const updatingLead = async (values) =>{
                   <tr key={key}>
                     <th scope="row">{key+1}</th>
                     <td >{Lead.firstName} {Lead.lastName} </td>
+                    <td >{Lead.shortDesc}</td>
                     <td >{Lead.status}</td>
                     <td >{Lead.email}</td>
                     <td >{Lead.assignedEmp}</td>
@@ -228,9 +220,13 @@ const updatingLead = async (values) =>{
               else{
                 //to call useEffect and Updating Formik initial values
                 {if(currentValues!=Lead){setCurrentValues(Lead)}}
+                if(cookie.user.access_lvl==="Admin" || cookie.user.access_lvl==="Admin")
+                {
+
                 return(
                   
                   <tr key={key} >
+                    
                     <th scope="row">{key+1}</th> 
                     
                     <td >
@@ -255,6 +251,7 @@ const updatingLead = async (values) =>{
                         
                     </td>
 
+                    <td >{Lead.shortDesc}</td>
 
                     <td >
                       <select 
@@ -265,12 +262,12 @@ const updatingLead = async (values) =>{
                             className="form-select" 
                             aria-label="Default select example" >
                       <option defaultValue>-- Select Status --</option>
-                      <option value="New">New</option>
-                      <option value="Contacted">Contacted</option>
-                      <option value="Qualified">Qualified</option>
-                      <option value="Lost">Lost</option>
-                      <option value="Confirmed">Confirmed</option>
-                      <option value="Canceled">Cancel</option>
+                      <option value="Created">Created</option>
+                      <option value="Open">Open</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Released">Released</option>
+                      <option value="Cancel">Cancel</option>
+                      <option value="Completed">Completed</option>
             
                     </select>
                     </td>
@@ -315,6 +312,50 @@ const updatingLead = async (values) =>{
                    </tr >
                  
                 )
+
+               
+                }
+                else
+                {
+                    return(
+                  
+                        <tr key={key} >
+                          
+                          <th scope="row">{key+1}</th> 
+                          
+                          <td >{Lead.firstName} {Lead.lastName} </td>
+    
+                          <td >
+                            <select 
+                                  defaultValue={Lead.status} 
+                                  onChange={handleChange} 
+                                  onBlur={handleBlur} 
+                                  name="Status"
+                                  className="form-select" 
+                                  aria-label="Default select example" >
+                            <option defaultValue>-- Select Status --</option>
+                            <option value="Created">Created</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Released">Released</option>
+                            <option value="Cancel">Cancel</option>
+                            <option value="Completed">Completed</option>
+                          </select>
+                          </td>
+                            <td >{Lead.shortDesc}</td>
+                            <td >{Lead.status}</td>
+                            <td >{Lead.email}</td>
+                            <td >{Lead.assignedEmp}</td>
+                            <td >{Lead.date}</td>
+                          <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
+                          <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                          </td>
+                        
+                         </tr >
+                       
+                      )
+                }
+                
               }
             
             
