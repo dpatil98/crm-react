@@ -22,18 +22,19 @@ export function ServiceRequest() {
   const [cookie ,setCookie ] = useCookies();
 
 
-  const [customers, setCustomers] = useState(null);
+  const [customers, setCustomers] = useState([0]);
   const [isEdit, setIsEdit] = useState(null);
   const [currentValues, setCurrentValues] = useState();
+  const [searchResult, setSearchResult] = useState();
   const [message ,setMessage] = useState([]);
 
   const usersName = `${cookie.user.firstName} ${cookie.user.lastName}` ;
-  console.log("User is :", usersName);
+  // console.log("User is :", usersName);
 
   const {handleSubmit , handleChange , handleBlur, values, errors, touched} = useFormik ({
 
    
-    initialValues : {ID:"", FirstName:"", LastName:"", Email:"", AssignedEmp:"", Status:"", Date:"" },
+    initialValues : {ID:"", FirstName:"", LastName:"", Email:"", AssignedEmp:"", Status:"", Date:"" , SearchServiceReq:null},
   
     validationSchema: formValidation, 
     onSubmit : (values) =>{
@@ -145,6 +146,49 @@ const updatingLead = async (values) =>{
 
 };
 
+const handleSearch = async () =>{
+
+  console.log("Searching.. ",values.SearchServiceReq);
+ 
+  if(values.SearchServiceReq)
+  {
+
+      const result=  await  fetch("http://localhost:9000/Dashboard/SearchServiceRequest",{
+          method : "POST",
+          body: JSON.stringify({
+                              searchThisRequest:values.SearchServiceReq
+                              }),
+          headers :{
+              'x-auth-token' : `${cookie.token}`,
+              'x-auth-mode' : 'addLead',
+              'Content-Type' : 'application/json'
+          }
+      
+          }).then(respone => respone.json() )
+          .catch( (e) => console.log(e));
+        
+
+          if(result)
+          {
+            console.log(result.message);
+            console.log(result.result);
+            if(result.result) {
+                setSearchResult(result.result)
+              
+            }else{
+              
+              setSearchResult();
+              alert("Result Not Found");
+            };
+          }
+          
+          // console.log(result.status);
+          // if(result.status==="200"){ window.location.reload(); }
+
+          setMessage(`${result.message} 🤨`);
+    }
+}
+
   return (
 
     <div className="leads-container container">
@@ -155,7 +199,7 @@ const updatingLead = async (values) =>{
         </div>
         <div className="leads-utilities d-flex justify-content-between">
           <div className="search-box">
-            <input type="text" aria-label="ssrach" placeholder="Search" /><i className="bi bi-search"></i>
+            <input type="text" onChange={handleChange} name="SearchServiceReq" aria-label="ssrach" placeholder="Search" /><i onClick={handleSearch} type="button" className="bi bi-search"></i>
           </div>
         </div>
 
@@ -181,11 +225,11 @@ const updatingLead = async (values) =>{
 
             
 
-            {(customers) ?  customers.map((Lead ,key)=> 
+            {(!searchResult) ?  customers.map((SR ,key)=> 
             { 
               let showEdit="none";
-              //only selfAddedLead or Admin or manager can edit a Lead
-              (Lead.assignedEmp===usersName || cookie.user.access_lvl==="Admin"|| cookie.user.access_lvl==="Manager") ? showEdit="auto" :showEdit="none";
+              //only selfAddedLead or Admin or manager can edit a SR
+              (SR.assignedEmp===usersName || cookie.user.access_lvl==="Admin"|| cookie.user.access_lvl==="Manager") ? showEdit="auto" :showEdit="none";
               //edit is state with defaultValue null
               //when someone clicks edit button we pass uniquekey to edit(nameOfState) state
               if(isEdit!==key)
@@ -193,21 +237,21 @@ const updatingLead = async (values) =>{
                 return (   
                   <tr key={key}>
                     <th scope="row">{key+1}</th>
-                    <td >{Lead.firstName} {Lead.lastName} </td>
-                    <td >{Lead.shortDesc}</td>
-                    <td >{Lead.status}</td>
-                    <td >{Lead.email}</td>
-                    <td >{Lead.assignedEmp}</td>
-                    <td >{Lead.date}</td>
+                    <td >{SR.firstName} {SR.lastName} </td>
+                    <td >{SR.shortDesc}</td>
+                    <td >{SR.status}</td>
+                    <td >{SR.email}</td>
+                    <td >{SR.assignedEmp}</td>
+                    <td >{SR.date}</td>
                     <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary text-white">Edit</button> 
-                         {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisLead(Lead)} className="btn bg-danger text-white">Delete</button></td> */}
+                         {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisLead(SR)} className="btn bg-danger text-white">Delete</button></td> */}
                          <button style={{pointerEvents:showEdit}} onClick={ () =>{
 
                                                                         const confirmBox = window.confirm(
                                                                               "Do you really want to delete this Crumb?"
                                                                             )
                                                                             if (confirmBox === true) {
-                                                                              DeleteThisLead(Lead)
+                                                                              DeleteThisLead(SR)
                                                                             } 
                                                 }
 
@@ -219,7 +263,7 @@ const updatingLead = async (values) =>{
               ////////////////////////////////////////////////
               else{
                 //to call useEffect and Updating Formik initial values
-                {if(currentValues!=Lead){setCurrentValues(Lead)}}
+                {if(currentValues!=SR){setCurrentValues(SR)}}
                 if(cookie.user.access_lvl==="Admin" || cookie.user.access_lvl==="Admin")
                 {
 
@@ -233,7 +277,7 @@ const updatingLead = async (values) =>{
                        
                         <input 
                         type="text"    
-                        defaultValue={[Lead.firstName]}
+                        defaultValue={[SR.firstName]}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         name="FirstName"     
@@ -242,7 +286,7 @@ const updatingLead = async (values) =>{
 
                         <input 
                         type="text" 
-                        defaultValue={Lead.lastName} 
+                        defaultValue={SR.lastName} 
                         onChange={handleChange} 
                         onBlur={handleBlur}
                         name="LastName" 
@@ -251,11 +295,11 @@ const updatingLead = async (values) =>{
                         
                     </td>
 
-                    <td >{Lead.shortDesc}</td>
+                    <td >{SR.shortDesc}</td>
 
                     <td >
                       <select 
-                            defaultValue={Lead.status} 
+                            defaultValue={SR.status} 
                             onChange={handleChange} 
                             onBlur={handleBlur} 
                             name="Status"
@@ -276,7 +320,7 @@ const updatingLead = async (values) =>{
                     <td >
                     <input 
                         type="Email" 
-                        defaultValue={Lead.email} 
+                        defaultValue={SR.email} 
                         onChange={handleChange} 
                         onBlur={handleBlur}
                         name="Email" 
@@ -288,7 +332,7 @@ const updatingLead = async (values) =>{
                     <td >
                        <input 
                           type="text" 
-                          defaultValue={Lead.assignedEmp}                           
+                          defaultValue={SR.assignedEmp}                           
                           onChange={handleChange} 
                           onBlur={handleBlur}
                           name="AssignedEmp"          
@@ -298,7 +342,7 @@ const updatingLead = async (values) =>{
                     <td  >
                       <input 
                       type="date" 
-                      defaultValue={Lead.date} 
+                      defaultValue={SR.date} 
                       onChange={handleChange} 
                       onBlur={handleBlur}
                       name="LastName" 
@@ -323,11 +367,11 @@ const updatingLead = async (values) =>{
                           
                           <th scope="row">{key+1}</th> 
                           
-                          <td >{Lead.firstName} {Lead.lastName} </td>
+                          <td >{SR.firstName} {SR.lastName} </td>
     
                           <td >
                             <select 
-                                  defaultValue={Lead.status} 
+                                  defaultValue={SR.status} 
                                   onChange={handleChange} 
                                   onBlur={handleBlur} 
                                   name="Status"
@@ -342,11 +386,11 @@ const updatingLead = async (values) =>{
                             <option value="Completed">Completed</option>
                           </select>
                           </td>
-                            <td >{Lead.shortDesc}</td>
-                            <td >{Lead.status}</td>
-                            <td >{Lead.email}</td>
-                            <td >{Lead.assignedEmp}</td>
-                            <td >{Lead.date}</td>
+                            <td >{SR.shortDesc}</td>
+                            <td >{SR.status}</td>
+                            <td >{SR.email}</td>
+                            <td >{SR.assignedEmp}</td>
+                            <td >{SR.date}</td>
                           <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
                           <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
                           </td>
@@ -359,7 +403,189 @@ const updatingLead = async (values) =>{
               }
             
             
-            } ):null }
+            } ): 
+            
+            searchResult.map((SR ,key)=> 
+            { 
+              let showEdit="none";
+              //only selfAddedLead or Admin or manager can edit a SR
+              (SR.assignedEmp===usersName || cookie.user.access_lvl==="Admin"|| cookie.user.access_lvl==="Manager") ? showEdit="auto" :showEdit="none";
+              //edit is state with defaultValue null
+              //when someone clicks edit button we pass uniquekey to edit(nameOfState) state
+              if(isEdit!==key)
+              {
+                return (   
+                  <tr key={key}>
+                    <th scope="row">{key+1}</th>
+                    <td >{SR.firstName} {SR.lastName} </td>
+                    <td >{SR.shortDesc}</td>
+                    <td >{SR.status}</td>
+                    <td >{SR.email}</td>
+                    <td >{SR.assignedEmp}</td>
+                    <td >{SR.date}</td>
+                    <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary text-white">Edit</button> 
+                         {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisLead(SR)} className="btn bg-danger text-white">Delete</button></td> */}
+                         <button style={{pointerEvents:showEdit}} onClick={ () =>{
+
+                                                                        const confirmBox = window.confirm(
+                                                                              "Do you really want to delete this Crumb?"
+                                                                            )
+                                                                            if (confirmBox === true) {
+                                                                              DeleteThisLead(SR)
+                                                                            } 
+                                                }
+
+                         } className="btn bg-danger text-white">Delete</button></td>
+                         
+                  </tr>
+                 )
+              } 
+              ////////////////////////////////////////////////
+              else{
+                //to call useEffect and Updating Formik initial values
+                {if(currentValues!=SR){setCurrentValues(SR)}}
+                if(cookie.user.access_lvl==="Admin" || cookie.user.access_lvl==="Admin")
+                {
+
+                return(
+                  
+                  <tr key={key} >
+                    
+                    <th scope="row">{key+1}</th> 
+                    
+                    <td >
+                       
+                        <input 
+                        type="text"    
+                        defaultValue={[SR.firstName]}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="FirstName"     
+                        placeholder="First Name" 
+                        required />
+
+                        <input 
+                        type="text" 
+                        defaultValue={SR.lastName} 
+                        onChange={handleChange} 
+                        onBlur={handleBlur}
+                        name="LastName" 
+                        placeholder="Last Name" 
+                        required />
+                        
+                    </td>
+
+                    <td >{SR.shortDesc}</td>
+
+                    <td >
+                      <select 
+                            defaultValue={SR.status} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur} 
+                            name="Status"
+                            className="form-select" 
+                            aria-label="Default select example" >
+                      <option defaultValue>-- Select Status --</option>
+                      <option value="Created">Created</option>
+                      <option value="Open">Open</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Released">Released</option>
+                      <option value="Cancel">Cancel</option>
+                      <option value="Completed">Completed</option>
+            
+                    </select>
+                    </td>
+
+
+                    <td >
+                    <input 
+                        type="Email" 
+                        defaultValue={SR.email} 
+                        onChange={handleChange} 
+                        onBlur={handleBlur}
+                        name="Email" 
+                        placeholder="sample@gmail.com" 
+                        required />
+                      
+                      
+                    </td>
+                    <td >
+                       <input 
+                          type="text" 
+                          defaultValue={SR.assignedEmp}                           
+                          onChange={handleChange} 
+                          onBlur={handleBlur}
+                          name="AssignedEmp"          
+                          placeholder="Employee Name" 
+                          required /> 
+                    </td>
+                    <td  >
+                      <input 
+                      type="date" 
+                      defaultValue={SR.date} 
+                      onChange={handleChange} 
+                      onBlur={handleBlur}
+                      name="LastName" 
+                      placeholder="Date" 
+                      required />
+                    </td>
+                    <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
+                    <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                    </td>
+                  
+                   </tr >
+                 
+                )
+
+               
+                }
+                else
+                {
+                    return(
+                  
+                        <tr key={key} >
+                          
+                          <th scope="row">{key+1}</th> 
+                          
+                          <td >{SR.firstName} {SR.lastName} </td>
+    
+                          <td >
+                            <select 
+                                  defaultValue={SR.status} 
+                                  onChange={handleChange} 
+                                  onBlur={handleBlur} 
+                                  name="Status"
+                                  className="form-select" 
+                                  aria-label="Default select example" >
+                            <option defaultValue>-- Select Status --</option>
+                            <option value="Created">Created</option>
+                            <option value="Open">Open</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Released">Released</option>
+                            <option value="Cancel">Cancel</option>
+                            <option value="Completed">Completed</option>
+                          </select>
+                          </td>
+                            <td >{SR.shortDesc}</td>
+                            <td >{SR.status}</td>
+                            <td >{SR.email}</td>
+                            <td >{SR.assignedEmp}</td>
+                            <td >{SR.date}</td>
+                          <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
+                          <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                          </td>
+                        
+                         </tr >
+                       
+                      )
+                }
+                
+              }
+            
+            
+            } )
+            
+            }
 
 
 
