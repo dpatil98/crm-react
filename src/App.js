@@ -4,7 +4,7 @@ import './Users/Login.css';
 import './Users/Adduser.css';
 import './Users/ForgotPass.css';
 
-import {Link ,Route, Switch, Redirect} from 'react-router-dom' ;
+import {Route, Switch, Redirect} from 'react-router-dom' ;
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { LoginForm } from './Users/LoginForm.js';
@@ -64,7 +64,7 @@ export function Open()
  
 }
 
-function close()
+export function close()
 {
 
   console.log("h");
@@ -72,30 +72,5 @@ function close()
   document.querySelector(".open-btn").style.display = "block";
 
 }
-
-export function Sidebar()
-{
-
-
-
-  return(
-    <div className="sidebar bg-dark">
-      <nav>
-          <button className="btn bg-dark text-white" onClick={close} >Close <i className="bi text-danger bi-x-square-fill"></i></button>
-          <hr className="text-white mt-0" />
-          <Link to="/Dashboard/Leads">Leads</Link>
-          <Link to="/Dashboard/ServiceRequest">Servive Request</Link>
-          <Link to="/Dashboard/Contacts">Contacts</Link>
-      </nav>
-    </div>
-
-        );
-
-}
-
-
-
-
-
 
 export default App ;

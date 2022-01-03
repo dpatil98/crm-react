@@ -243,7 +243,7 @@ const handleSearch = async () =>{
                     <td >{SR.email}</td>
                     <td >{SR.assignedEmp}</td>
                     <td >{SR.date}</td>
-                    <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary text-white">Edit</button> 
+                    <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary mx-1 text-white"><i class="bi bi-pencil-square"></i></button> 
                          {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisLead(SR)} className="btn bg-danger text-white">Delete</button></td> */}
                          <button style={{pointerEvents:showEdit}} onClick={ () =>{
 
@@ -255,7 +255,7 @@ const handleSearch = async () =>{
                                                                             } 
                                                 }
 
-                         } className="btn bg-danger text-white">Delete</button></td>
+                         } className="btn bg-danger mx-1 text-white"><i class="bi bi-trash"></i></button></td>
                          
                   </tr>
                  )
@@ -349,8 +349,8 @@ const handleSearch = async () =>{
                       placeholder="Date" 
                       required />
                     </td>
-                    <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
-                    <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                    <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger mx-1 text-white"><i class="bi bi-x-lg"></i></button>
+                    <button onClick={handleSubmit} type="button" className="btn bg-success  mx-1 text-white"><i class="bi bi-save"></i></button> 
                     </td>
                   
                    </tr >
@@ -391,8 +391,8 @@ const handleSearch = async () =>{
                             <td >{SR.email}</td>
                             <td >{SR.assignedEmp}</td>
                             <td >{SR.date}</td>
-                          <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
-                          <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                          <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger mx-1 text-white"><i class="bi bi-x-lg"></i></button>
+                          <button onClick={handleSubmit} type="button" className="btn bg-success mx-1 text-white"><i class="bi bi-save"></i></button> 
                           </td>
                         
                          </tr >
@@ -423,7 +423,7 @@ const handleSearch = async () =>{
                     <td >{SR.email}</td>
                     <td >{SR.assignedEmp}</td>
                     <td >{SR.date}</td>
-                    <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary text-white">Edit</button> 
+                    <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn mx-1 bg-primary text-white"><i class="bi bi-pencil-square"></i></button> 
                          {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisLead(SR)} className="btn bg-danger text-white">Delete</button></td> */}
                          <button style={{pointerEvents:showEdit}} onClick={ () =>{
 
@@ -435,7 +435,7 @@ const handleSearch = async () =>{
                                                                             } 
                                                 }
 
-                         } className="btn bg-danger text-white">Delete</button></td>
+                         } className="btn bg-danger mx-1 text-white"><i class="bi bi-trash"></i></button></td>
                          
                   </tr>
                  )
@@ -529,8 +529,8 @@ const handleSearch = async () =>{
                       placeholder="Date" 
                       required />
                     </td>
-                    <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
-                    <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                    <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger mx-1 text-white"><i class="bi bi-x-lg"></i></button>
+                    <button onClick={handleSubmit} type="button" className="btn bg-success  mx-1 text-white"><i class="bi bi-save"></i></button> 
                     </td>
                   
                    </tr >
@@ -571,8 +571,8 @@ const handleSearch = async () =>{
                             <td >{SR.email}</td>
                             <td >{SR.assignedEmp}</td>
                             <td >{SR.date}</td>
-                          <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger p-1 text-white">Close</button>
-                          <button onClick={handleSubmit} type="button" className="btn bg-success p-1  text-white">Save</button> 
+                          <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger  mx-1 text-white"><i class="bi bi-x-lg"></i></button>
+                          <button onClick={handleSubmit} type="button" className="btn bg-success  mx-1 text-white"><i class="bi bi-save"></i></button> 
                           </td>
                         
                          </tr >

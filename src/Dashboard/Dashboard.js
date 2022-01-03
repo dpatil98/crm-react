@@ -2,13 +2,16 @@
 import { useHistory } from 'react-router-dom';
 import {Link ,Route, Switch} from 'react-router-dom' ;
 import { AddUser } from '../Users/AddUser.js';
-import { Sidebar ,Open} from '../App.js' ;
+import { Open} from '../App.js' ;
+
 import { Leads } from "./Leads";
 
 // import { Logout } from '../Users/Logout.js';
 import { AddLead } from './AddLead.js';
+import { Sidebar } from "./Sidebar";
 import { useCookies } from 'react-cookie';
 import { ServiceRequest } from './ServiceRequests.js';
+import { AllUsers } from './AllUsers.js';
 
 
 
@@ -113,6 +116,9 @@ export function Dashboard() {
                   </Route>
                   <Route path="/Dashboard/AddUser">
                     <AddUser/> 
+                  </Route>
+                  <Route path="/Dashboard/AllUsers">
+                    <AllUsers/>
                   </Route>
                   {/* <Route path="/Dashboard/Logout">
                     < Logout /> 
