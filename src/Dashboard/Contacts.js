@@ -8,14 +8,17 @@ import * as yup from 'yup';
 
 const formValidation =  yup.object({
 
-  FirstName: yup.string().required("You Forgot To Write First Name😱"),
-  LastName: yup.string().required("You Forgot To Write Last Name😱"),
-  Email: yup.string().required("You Forgot To Write Email 🥺🥺"),
-  Access_lvl: yup.string().required("Wait we havnt assigned a employee 😱"),
+  FirstName: yup.string().required("You Forgot To Write First Name😱").max(20,"maximum 20 characters allowed😱"),
+  LastName: yup.string().required("You Forgot To Write Last Name😱").max(20,"maximum 20 characters allowed😱"),
+  Email: yup.string().required("You Forgot To Write Email 🥺🥺").max(20,"maximum 20 characters allowed😱"),
+  AddedBy: yup.string().required("AddedBy field is mandatory😱").max(20,"maximum 20 characters allowed😱"),
+  MobileNo: yup.string().required("You Forgot To Add Mobile Number😱").max(12,"maximum 12 digits allowed😱"),
+  Address : yup.string().required("You Forgot Add Address 😱")
+                            .max(50,"maximum 50 characters allowed😱")
 });
 
 
-export function AllUsers() {
+export function Contacts() {
   const [cookie ,setCookie ] = useCookies();
   const history = useHistory (); 
 
@@ -24,11 +27,7 @@ export function AllUsers() {
     history.push("/");
     
   }
-  console.log("Acc_lvl",cookie.user.access_lvl)
-  if( (cookie.user.access_lvl !== ("Manager") && (cookie.user.access_lvl !== ("Admin" ) ) ) )
-  {
-    history.push("/Dashboard/Leads");
-  }
+ 
 
   const [alllUsersData, setalllUsersData] = useState([0]);
   const [isEdit, setIsEdit] = useState(null);
@@ -47,7 +46,7 @@ export function AllUsers() {
   const {handleSubmit , handleChange , handleBlur, values, errors, touched} = useFormik ({
 
    
-    initialValues : {ID:"", FirstName:"", LastName:"", Email:"", Access_lvl:"", SearchUser:null},
+    initialValues : {ID:"", FirstName:"", LastName:"", Email:"", MobileNo:"", SearchUser:null,  Address:"" , AddedBy : "" ,Date:""},
   
     validationSchema: formValidation, 
     onSubmit : (values) =>{
@@ -62,7 +61,7 @@ export function AllUsers() {
   useEffect( async ()=>{ 
 
       console.log("Getting Users");
-      await fetch("http://localhost:9000/Dashboard/AllUsers",{
+      await fetch("http://localhost:9000/Dashboard/Contacts",{
       method : "GET"  
       }).then((response) => response.json())
         .then(data => setalllUsersData(data))
@@ -81,6 +80,8 @@ export function AllUsers() {
     
   },[]);
 
+console.log(alllUsersData);
+
   //useEffectfor setting default values to formik
   useEffect(()=>{ 
     
@@ -90,7 +91,11 @@ export function AllUsers() {
     values.FirstName=currentValues.firstName;
     values.LastName=currentValues.lastName;
     values.Email=currentValues.email;
-    values.Access_lvl=currentValues.access_lvl; 
+    values.MobileNo=currentValues.mobileNo; 
+    values.Address=currentValues.address; 
+    values.AddedBy=currentValues.addedBy; 
+    values.Date=currentValues.data; 
+    
     console.log("From Effect",values);
     }
 },[currentValues]);
@@ -100,7 +105,7 @@ const DeleteThisUser = async (deletingThisUser) =>{
 
   console.log("Deleting... ",deletingThisUser);
 
-  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteUser",{
+  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteContact",{
       method : "POST",
       body: JSON.stringify({
                             id  :deletingThisUser._id,
@@ -130,14 +135,17 @@ const UpdatingUser = async (values) =>{
   console.log("Updating... ",values);
  
   console.log(values);
-  const result=  await  fetch("http://localhost:9000/Dashboard/EditUser",{
+  const result=  await  fetch("http://localhost:9000/Dashboard/EditContact",{
       method : "POST",
       body: JSON.stringify({
                             id          :values.ID,
                             firstName   :values.FirstName,
                             lastName    :values.LastName,
-                            access_lvl  :values.Access_lvl,         
-                            email       :values.Email,                     
+                            mobileNo    :values.MobileNo,         
+                            email       :values.Email,
+                            address     :values.Address,
+                            addedBy     :values.AddedBy,
+                            date        :values.Date,             
                            }),
       headers :{
           'x-auth-token' : `${cookie.token}`,
@@ -165,10 +173,10 @@ const handleSearch = async () =>{
   if(values.SearchUser)
   {
 
-      const result=  await  fetch("http://localhost:9000/Dashboard/SearchUsers",{
+      const result=  await  fetch("http://localhost:9000/Dashboard/SearchContacts",{
           method : "POST",
           body: JSON.stringify({
-                                searchThisUser:values.SearchUser
+                                searchThisContact:values.SearchUser
                               }),
           headers :{
               'x-auth-token' : `${cookie.token}`,
@@ -203,18 +211,18 @@ const handleSearch = async () =>{
 
   return (
 
-    <div className="section-container allUsers-responsive container">
+    <div className="section-container contacts-responsive container">
       <div className="head-container">
 
         <div className="Content-heading">
-          <h3>Users</h3>
+          <h3>Contacts</h3>
         </div>
         <div className="leads-utilities d-flex justify-content-between">
           <div className="search-box">
            <form><input onChange={handleChange} name="SearchUser" type="text" aria-label="UserSearch" placeholder="Search Users"   /><i onClick={handleSearch} type="submit" className="bi bi-search"></i></form> 
           </div>
           <div className="add-user">
-            <Link to="/Dashboard/AddUser"><button className="btn btn-primary"> <i className="bi bi-plus-square"></i>Add User</button></Link>
+            <Link to="/Dashboard/Contacts/AddContact"><button className="btn btn-primary"> <i className="bi bi-plus-square"></i>Add Contact</button></Link>
           </div>
         </div>
 
@@ -227,7 +235,10 @@ const handleSearch = async () =>{
               <th scope="col">#</th>
               <th scope="col">Name</th>             
               <th scope="col">Email</th>
-              <th scope="col">Access Level</th>
+              <th scope="col">Mobile No.</th>
+              <th scope="col">Address</th>
+              <th scope="col">Added By</th>
+              <th scope="col">Data</th>
               <th scope="col">Action</th>
             </tr>
             
@@ -252,7 +263,10 @@ const handleSearch = async () =>{
                     <th scope="row">{key+1}</th>
                     <td >{UserData.firstName} {UserData.lastName} </td>
                     <td >{UserData.email}</td>
-                    <td >{UserData.access_lvl}</td>            
+                    <td >{UserData.mobileNo}</td>
+                    <td >{UserData.address}</td> 
+                    <td >{UserData.addedBy}</td> 
+                    <td >{UserData.date}</td>             
                     <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary mx-1 text-white"><i class="bi bi-pencil-square"></i></button> 
                          {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisUserData(UserData)} className="btn bg-danger text-white"><i class="bi bi-trash"></i></button></td> */}
                          <button style={{pointerEvents:showEdit}} onClick={ () =>{
@@ -312,21 +326,45 @@ const handleSearch = async () =>{
                            required />                
                    </td>
                    <td >
-                     <select 
-                           defaultValue={UserData.access_lvl} 
-                           onChange={handleChange} 
-                           onBlur={handleBlur} 
-                           name="Access_lvl"
-                           className="form-select" 
-                           aria-label="Default select example" >
-                     <option defaultValue>-- Select Status --</option>
-                     <option value="Admin">Admin</option>
-                     <option value="Manager">Manager</option>
-                     <option value="Employee">Employee</option>
-                     
-           
-                   </select>
-                   </td>
+                        <input 
+                            type="number" 
+                            defaultValue={UserData.mobileNo} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="MobileNo" 
+                            placeholder="Mobile Number" 
+                            required />                
+                    </td>
+                    <td >
+                        <input 
+                            type="text" 
+                            defaultValue={UserData.address} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="Address" 
+                            placeholder="Address" 
+                            required />                
+                    </td>
+                    <td >
+                        <input 
+                            type="text" 
+                            defaultValue={UserData.addedBy} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="AddedBy" 
+                            placeholder="Employee Name" 
+                            required />                
+                    </td>
+                    <td >
+                        <input 
+                            type="text" 
+                            defaultValue={UserData.date} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="Date" 
+                            placeholder="Added On This Date" 
+                            required />                
+                    </td>
                     <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger mx-1 text-white"><i class="bi bi-x-lg"></i></button>
                     <button onClick={handleSubmit} type="button" className="btn bg-success  mx-1 text-white"><i class="bi bi-save"></i></button> 
                     </td>
@@ -357,10 +395,13 @@ const handleSearch = async () =>{
                   <tr key={key}>
                     <th scope="row">{key+1}</th>
                     <td >{UserData.firstName} {UserData.lastName} </td>
-                    <td >{UserData.status}</td>
                     <td >{UserData.email}</td>
-                    <td >{UserData.access_lvl}</td>
+                    <td >{UserData.mobileNo}</td>
+                    <td >{UserData.address}</td> 
+                    <td >{UserData.addedBy}</td>  
                     <td >{UserData.date}</td>
+
+
                     <td ><button style={{pointerEvents:showEdit}} onClick={()=>{setIsEdit(key)}} className="btn bg-primary mx-1 text-white"><i class="bi bi-pencil-square"></i></button> 
                          {/* <button style={{pointerEvents:showEdit}} onClick={()=>DeleteThisUserData(UserData)} className="btn bg-danger text-white">Delete</button></td> */}
                          <button style={{pointerEvents:showEdit}} onClick={ () =>{
@@ -419,21 +460,46 @@ const handleSearch = async () =>{
                             placeholder="sample@gmail.com" 
                             required />                
                     </td>
+
                     <td >
-                      <select 
-                            defaultValue={UserData.access_lvl} 
+                        <input 
+                            type="number" 
+                            defaultValue={UserData.mobileNo} 
                             onChange={handleChange} 
-                            onBlur={handleBlur} 
-                            name="Access_lvl"
-                            className="form-select" 
-                            aria-label="Default select example" >
-                      <option defaultValue>-- Select Status --</option>
-                      <option value="Admin">Admin</option>
-                      <option value="Manager">Manager</option>
-                      <option value="Employee">Employee</option>
-                      
-            
-                    </select>
+                            onBlur={handleBlur}
+                            name="MobileNo" 
+                            placeholder="Mobile Number" 
+                            required />                
+                    </td>
+                    <td >
+                        <input 
+                            type="text" 
+                            defaultValue={UserData.address} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="Address" 
+                            placeholder="Enter Address" 
+                            required />                
+                    </td>
+                    <td >
+                        <input 
+                            type="text" 
+                            defaultValue={UserData.addedBy} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="AddedBy" 
+                            placeholder="Employee Name "
+                            required />                
+                    </td>
+                    <td >
+                        <input 
+                            type="text" 
+                            defaultValue={UserData.date} 
+                            onChange={handleChange} 
+                            onBlur={handleBlur}
+                            name="Date" 
+                            placeholder="Created On this Date" 
+                            required />                
                     </td>
                     
                     <td ><button onClick={()=>setIsEdit(null)} className="btn bg-danger mx-1 text-white"><i class="bi bi-x-lg"></i></button>

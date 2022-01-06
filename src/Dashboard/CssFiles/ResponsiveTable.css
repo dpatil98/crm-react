@@ -1,0 +1,85 @@
+
+
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	/* Force table to not be like tables anymore */
+	th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	th  { 
+		position: absolute;
+	    top: -9999px;
+		left: -9999px;
+	} 
+	
+	tr { border: 1px solid rgb(41, 41, 41); }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid rgb(61, 61, 61); 
+		/* position: relative; */
+		padding-left: 50%; 
+	}
+	
+	td:before { 
+		/* Now like a table header */
+		/* position: absolute; */
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+        font-size: 1.05rem;
+        
+	}
+	
+	td:nth-of-type(1):before { content: "Name :"; }
+	td:nth-of-type(2):before { content: "Email :"; }
+	td:nth-of-type(3):before { content: "Mobile No. :"; }
+	td:nth-of-type(4):before { content: "Address :"; }
+	td:nth-of-type(5):before { content: "Added By :"; }
+	td:nth-of-type(6):before { content: "Date :"; }
+	td:nth-of-type(7):before { content: "Action:"; }
+	/* td:nth-of-type(8):before { content: "Country :"; } */
+
+     
+     /* Leads Section Content */
+    .leads-responsive td:nth-of-type(1):before { content: "Name :"; }
+	.leads-responsive td:nth-of-type(2):before { content: "Status :"; }
+	.leads-responsive td:nth-of-type(3):before { content: "Email :"; }
+	.leads-responsive td:nth-of-type(4):before { content: "Assigned Employee :"; }
+	.leads-responsive td:nth-of-type(5):before { content: "Date :"; }
+	.leads-responsive td:nth-of-type(6):before { content: "Action:"; }
+    
+    /* Service Req Section Content */ 
+    .services-responsive  td:nth-of-type(1):before { content: "Name :"; }
+	.services-responsive  td:nth-of-type(2):before { content: "Short Desc :"; }
+	.services-responsive  td:nth-of-type(3):before { content: "Status :"; }
+	.services-responsive  td:nth-of-type(4):before { content: "Email :"; }
+	.services-responsive  td:nth-of-type(5):before { content: "Assigned Employee :"; }
+	.services-responsive  td:nth-of-type(6):before { content: "Date :"; }
+	.services-responsive  td:nth-of-type(7):before { content: "Action:"; }
+
+     /* All Users Section Content */
+    .allUsers-responsive td:nth-of-type(1):before { content: "Name :"; }
+	.allUsers-responsive  td:nth-of-type(2):before { content: "Email :"; }
+	.allUsers-responsive  td:nth-of-type(3):before { content: "Access Level :"; }
+	.allUsers-responsive td:nth-of-type(4):before { content: "Address :"; }
+	.allUsers-responsive td:nth-of-type(5):before { content: "Action:"; }
+
+    /* Contact Section Content */
+    .contacts-responsive  td:nth-of-type(1):before { content: "Name :"; }
+	.contacts-responsive  td:nth-of-type(2):before { content: "Email :"; }
+	.contacts-responsive  td:nth-of-type(3):before { content: "Mobile No. :"; }
+	.contacts-responsive td:nth-of-type(4):before { content: "Address :"; }
+	.contacts-responsive td:nth-of-type(5):before { content: "Added By :"; }
+	.contacts-responsive td:nth-of-type(6):before { content: "Date :"; }
+	.contacts-responsive td:nth-of-type(7):before { content: "Action:"; }
+}

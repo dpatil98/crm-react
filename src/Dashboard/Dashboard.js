@@ -2,17 +2,19 @@
 import { useHistory } from 'react-router-dom';
 import {Link ,Route, Switch} from 'react-router-dom' ;
 import { AddUser } from '../Users/AddUser.js';
-import { Open} from '../App.js' ;
+// import { Open} from '../App.js' ;
 
 import { Leads } from "./Leads";
-
 // import { Logout } from '../Users/Logout.js';
 import { AddLead } from './AddLead.js';
 import { Sidebar } from "./Sidebar";
 import { useCookies } from 'react-cookie';
 import { ServiceRequest } from './ServiceRequests.js';
 import { AllUsers } from './AllUsers.js';
+import { AddContact } from './AddContact.js';
+import { Contacts } from './Contacts.js';
 
+import './CssFiles/ResponsiveTable.css';
 
 
 export function Dashboard() {
@@ -46,9 +48,10 @@ export function Dashboard() {
     <div className="dashboard-container">
 
       <nav>
-        <div className="horizantal-nav bg-dark">
-          <div className="logo">
-            <img src="https://png.pngtree.com/element_pic/00/16/07/06577d261edb9ec.jpg" aria-label="LogoImage" />
+        <div className="horizantal-nav bg-dark pt-1">
+          <div className="logo mx-3">
+            {/* <img src="https://png.pngtree.com/element_pic/00/16/07/06577d261edb9ec.jpg" aria-label="LogoImage" /> */}
+            <img src="https://www.clipartmax.com/png/full/203-2037661_logo-sample-earth.png" aria-label="LogoImage" />
           </div>
           <div className="user d-flex text-white">
             {/* <div className="Add-User" >
@@ -93,16 +96,9 @@ export function Dashboard() {
           </div>
         </div>
       </nav>
-
-      <div className="d-flex">
-        <div className="open-btn btn">
-          <button className=" btn-primary btn" onClick={Open}><i className="bi bi-menu-button"></i></button>
-        </div>
-      </div>
           
-      <div className="d-flex">
+      <div className="d-flex Dashboard-con ">
           < Sidebar/> 
-
           <Switch>
                   
                   <Route exact path="/Dashboard/Leads">
@@ -114,10 +110,16 @@ export function Dashboard() {
                   <Route path="/Dashboard/ServiceRequest">
                     <ServiceRequest/> 
                   </Route>
-                  <Route path="/Dashboard/AddUser">
+                  <Route  exact path="/Dashboard/Contacts/AddContact">
+                    <AddContact/>
+                  </Route>
+                  <Route path="/Dashboard/Contacts">
+                    <Contacts/>
+                  </Route>        
+                  <Route  exact path="/Dashboard/AddUser">
                     <AddUser/> 
                   </Route>
-                  <Route path="/Dashboard/AllUsers">
+                  <Route  exact path="/Dashboard/AllUsers">
                     <AllUsers/>
                   </Route>
                   {/* <Route path="/Dashboard/Logout">

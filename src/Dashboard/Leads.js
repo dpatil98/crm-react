@@ -206,7 +206,7 @@ const handleSearch = async () =>{
 
   return (
 
-    <div className="leads-container container">
+    <div className="section-container leads-responsive container">
       <div className="head-container">
 
         <div className="Content-heading">

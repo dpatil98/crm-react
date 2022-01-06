@@ -81,7 +81,11 @@ export function LoginForm() {
 
 
     <div className="LoginFrom container   text-center">
-      <h2 className="my-5 pt-5">Login</h2>
+      <div className="logo p-3">
+            {/* <img src="https://png.pngtree.com/element_pic/00/16/07/06577d261edb9ec.jpg" aria-label="LogoImage" /> */}
+            <img src="https://www.clipartmax.com/png/full/203-2037661_logo-sample-earth.png" aria-label="LogoImage" />
+      </div>
+      <h2 className="py-2">Login</h2>
 
       <form onSubmit={handleSubmit}>
 

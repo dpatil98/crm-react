@@ -57,20 +57,20 @@ function App() {
 
 
 
-export function Open()
-{
- document.querySelector(".open-btn").style.display = "none";
-  document.querySelector(".sidebar").style.display = "block";
+// export function Open()
+// {
+//  document.querySelector(".open-btn").style.display = "none";
+//   document.querySelector(".sidebar").style.display = "block";
  
-}
+// }
 
-export function close()
-{
+// export function close()
+// {
 
-  console.log("h");
-  document.querySelector(".sidebar").style.display = "none";
-  document.querySelector(".open-btn").style.display = "block";
+//   console.log("h");
+//   document.querySelector(".sidebar").style.display = "none";
+//   document.querySelector(".open-btn").style.display = "block";
 
-}
+//}
 
 export default App ;

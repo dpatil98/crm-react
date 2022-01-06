@@ -52,11 +52,13 @@ input {
 
 .logo img, .user img{
 
-    margin:0 5px ;
+    margin:5px 15px ;
     width: 50px; 
     height: 45px;
 
 }
+
+
 
 .user-icon-box
 {
@@ -79,34 +81,28 @@ input {
 
 }
 
-.sidebar{
-  display: none;
-  width: 100px;
-  
-}
 
-.sidebar nav{
 
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  height: 94vh; 
-}
 
-.sidebar a{
 
-  letter-spacing: 1px;
-  padding: 5px 5px;
-  color: white;
-}
-
-.leads-container{
+.section-container{
 
 
   background-color: rgb(238, 238, 238);
   height: max-content;
 
 }
+
+.section-container input{
+
+
+  border: 1px solid gray;
+  border-radius: 5px;
+  /* max-width: 100px; */
+
+}
+
+
 
 .head-container{
 
