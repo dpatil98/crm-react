@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 
 const formValidation =  yup.object({
@@ -57,11 +58,26 @@ export function Contacts() {
     
     });
 
+
+     //using useEffect to Show errors
+  useEffect( async ()=>{ 
+
+      if(errors)
+    {
+      for(let keys in errors)
+      {
+        alert(errors[keys]);
+      }     
+    }
+    
+  },[errors]);
+
+
     //useEfeect for gettig all users only once
   useEffect( async ()=>{ 
 
       console.log("Getting Users");
-      await fetch("http://localhost:9000/Dashboard/Contacts",{
+      await fetch(`${API_URL}/Dashboard/Contacts`,{
       method : "GET"  
       }).then((response) => response.json())
         .then(data => setalllUsersData(data))
@@ -105,7 +121,7 @@ const DeleteThisUser = async (deletingThisUser) =>{
 
   console.log("Deleting... ",deletingThisUser);
 
-  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteContact",{
+  const result=  await  fetch(`${API_URL}/Dashboard/DeleteContact`,{
       method : "POST",
       body: JSON.stringify({
                             id  :deletingThisUser._id,
@@ -135,7 +151,7 @@ const UpdatingUser = async (values) =>{
   console.log("Updating... ",values);
  
   console.log(values);
-  const result=  await  fetch("http://localhost:9000/Dashboard/EditContact",{
+  const result=  await  fetch(`${API_URL}/Dashboard/EditContact`,{
       method : "POST",
       body: JSON.stringify({
                             id          :values.ID,
@@ -173,7 +189,7 @@ const handleSearch = async () =>{
   if(values.SearchUser)
   {
 
-      const result=  await  fetch("http://localhost:9000/Dashboard/SearchContacts",{
+      const result=  await  fetch(`${API_URL}/Dashboard/SearchContacts`,{
           method : "POST",
           body: JSON.stringify({
                                 searchThisContact:values.SearchUser

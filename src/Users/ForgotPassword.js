@@ -1,7 +1,9 @@
 import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
+import { Alert } from 'react-bootstrap';
 import { useHistory, useLocation } from 'react-router-dom';
 import * as yup from'yup';
+import { API_URL } from '../global-constants';
 
 
 const formValidation =  yup.object({
@@ -14,6 +16,8 @@ const formValidation =  yup.object({
 export function ForgotPassword() {
 
     const [message,  setMessage] = useState(null);
+    const [link,  setLink] = useState();
+    const [linkMsg,  setLinkMsg] = useState();
 
     const { handleSubmit, handleChange, handleBlur, values, errors, touched } = useFormik({
     initialValues: { email: "" },
@@ -28,7 +32,7 @@ export function ForgotPassword() {
 
     const CheckEmail = async (values) =>
     {
-        const re= await fetch("http://localhost:9000/users/ForgotPassword",{
+        const re= await fetch(`${API_URL}/users/ForgotPassword`,{
             method : "POST",
             body: JSON.stringify({                        
                                   email:values.email,
@@ -41,17 +45,27 @@ export function ForgotPassword() {
             .catch( (e) => console.log(e));
                     
             console.log("re",re.Status);
-  
-            if(re.Status)
-                {
-                //   localStorage.setItem("token", re.token);
-                //   history.push('/Dashboard');   
-                setMessage(re.message);     
-                }
-            else{
-                  
-                setMessage(`${re.message} 🤨`);
+            if(!re.link)
+            {
+              setMessage(`${re.message} 🤨`);
             }
+            else{
+              setLink(re.link);
+              setLinkMsg(re.message);
+            }
+            
+            // if(re.Status || re.message)
+            //     {
+            //     //   localStorage.setItem("token", re.token);
+            //     //   history.push('/Dashboard');   
+            //     setMessage(re.message);     
+            //     }
+            // else{
+                  
+            //     setMessage(`${re.message} 🤨`);
+            // }
+
+
     }
 
   return (
@@ -93,7 +107,12 @@ export function ForgotPassword() {
         </div>
 
       </form>
-
+      { (link) ? <Alert variant={'warning'}>
+                     {linkMsg } <Alert.Link className='text-primary' href={link}>Click Here</Alert.Link>
+                  </Alert> 
+               
+               : null }
+      
     </div>
 
   );
@@ -116,6 +135,7 @@ const ResetPasswordConfirmation =  yup.object({
 });
 
 
+//after clicking the link
 export function ResetPassword() {
 
   const history = useHistory();
@@ -123,7 +143,7 @@ export function ResetPassword() {
   // const [data,  setData] = useState(null);
   const idAndToeken = useLocation().search;
       const id = new URLSearchParams(idAndToeken).get('id');
-      const FT = new URLSearchParams(idAndToeken).get('FT');
+      const FT = new URLSearchParams(idAndToeken).get('FT');//FT ->forgetPassword's token
  
  
       const { handleSubmit, handleChange, handleBlur, values, errors, touched } = useFormik({
@@ -139,7 +159,7 @@ export function ResetPassword() {
 
   useEffect( async ()=>{ 
 
-    const re= await fetch("http://localhost:9000/users/reset-password",{
+    const re= await fetch(`${API_URL}/users/reset-password`,{
       method : "POST",
       body: JSON.stringify({                        
                             id:id,
@@ -166,11 +186,12 @@ export function ResetPassword() {
   },[]);
 
 
+  // -----------------------
 async function PasswordReseting(values)
 {
     console.log('Sending to update pass ',values);
 
-    const result= await fetch("http://localhost:9000/users/changing-password",{
+    const result= await fetch(`${API_URL}/users/changing-password`,{
       method : "POST",
       body: JSON.stringify({                        
                             password:values.Password,

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 
 
@@ -28,8 +29,14 @@ const formValidation =  yup.object({
   FirstName: yup.string().required("You Forgot To Write First Name😱"),
   LastName: yup.string().required("You Forgot To Write Last Name😱"),
   Email: yup.string().required("You Forgot To Write Email 🥺🥺"),
-  Password: yup.string().required("You Forgot To Write Password 😱"),
-  CPassword: yup.string().required("You Forgot To Confirm Your Password 😱"),
+  Password : yup.string().required("You Forgot To put Password🥺")
+            .min(8,"Minimum length Should Be 8 😤")
+            .max(20,"Maximum length is 20 😅"),
+
+  CPassword: yup.string().required("You Forgot To Confirm your Password🥺")
+            .min(8,"Minimum length Should Be 8 😤")
+            .max(20,"Maximum length is 20 😅")
+            .oneOf([yup.ref('Password'), null], 'Passwords must match'),
   AccessLevel : yup.string().required("You Forgot To Give Access Level😱")
                             .max(9,"You Forgot To Give Access Level😱")
 });
@@ -73,7 +80,7 @@ const registration = async (values) =>{
              
               //key is not used while makin obj bcus both key and value name are same
               console.log(values);
-              const result=  await  fetch("http://localhost:9000/users/Signup",{
+              const result=  await  fetch(`${API_URL}/users/Signup`,{
                   method : "POST",
                   body: JSON.stringify({firstName  :values.FirstName,
                                         lastName   :values.LastName,

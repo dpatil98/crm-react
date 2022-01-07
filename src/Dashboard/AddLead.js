@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 
 
@@ -55,7 +56,7 @@ const registration = async (values) =>{
              
               //key is not used while makin obj bcus both key and value name are same
               console.log(values);
-              const result=  await  fetch("http://localhost:9000/Dashboard/AddLead",{
+              const result=  await  fetch(`${API_URL}/Dashboard/AddLead`,{
                   method : "POST",
                   body: JSON.stringify({firstName   :values.FirstName,
                                         lastName    :values.LastName,

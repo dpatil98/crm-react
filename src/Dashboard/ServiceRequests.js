@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 
 const formValidation =  yup.object({
@@ -45,10 +46,25 @@ export function ServiceRequest() {
     
     });
 
+
+       //using useEffect to Show errors
+  useEffect( async ()=>{ 
+
+    if(errors)
+  {
+    for(let keys in errors)
+    {
+      alert(errors[keys]);
+    }     
+  }
+  
+},[errors]);
+
+  
     //useEfeect for gettig all leads only once
   useEffect( async ()=>{ 
 
-      await fetch("http://localhost:9000/Dashboard/ServiceRequests",{
+      await fetch(`${API_URL}/Dashboard/ServiceRequests`,{
       method : "GET"  
       }).then((response) => response.json())
         .then(data => setCustomers(data))
@@ -79,7 +95,7 @@ const DeleteThisLead = async (currentLead) =>{
 
   console.log("Deleting... ",currentLead);
 
-  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteServiceReq",{
+  const result=  await  fetch(`${API_URL}/Dashboard/DeleteServiceReq`,{
       method : "POST",
       body: JSON.stringify({
                             id  :currentLead._id,
@@ -115,7 +131,7 @@ const updatingLead = async (values) =>{
   console.log("Updating... ",values);
  
   console.log(values);
-  const result=  await  fetch("http://localhost:9000/Dashboard/EditServiceReq",{
+  const result=  await  fetch(`${API_URL}/Dashboard/EditServiceReq`,{
       method : "POST",
       body: JSON.stringify({
                             id          :values.ID,
@@ -153,7 +169,7 @@ const handleSearch = async () =>{
   if(values.SearchServiceReq)
   {
 
-      const result=  await  fetch("http://localhost:9000/Dashboard/SearchServiceRequest",{
+      const result=  await  fetch(`${API_URL}/Dashboard/SearchServiceRequest`,{
           method : "POST",
           body: JSON.stringify({
                               searchThisRequest:values.SearchServiceReq

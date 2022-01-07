@@ -4,6 +4,7 @@ import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 
 const formValidation =  yup.object({
@@ -13,6 +14,7 @@ const formValidation =  yup.object({
   Email: yup.string().required("You Forgot To Write Email 🥺🥺"),
   Access_lvl: yup.string().required("Wait we havnt assigned a employee 😱"),
 });
+
 
 
 export function AllUsers() {
@@ -29,6 +31,8 @@ export function AllUsers() {
   {
     history.push("/Dashboard/Leads");
   }
+
+
 
   const [alllUsersData, setalllUsersData] = useState([0]);
   const [isEdit, setIsEdit] = useState(null);
@@ -58,11 +62,24 @@ export function AllUsers() {
     
     });
 
+    //using useEffect to Show errors
+  useEffect( async ()=>{ 
+
+      if(errors)
+    {
+      for(let keys in errors)
+      {
+        alert(errors[keys]);
+      }     
+    }
+    
+  },[errors]);
+  
     //useEfeect for gettig all users only once
   useEffect( async ()=>{ 
 
       console.log("Getting Users");
-      await fetch("http://localhost:9000/Dashboard/AllUsers",{
+      await fetch(`${API_URL}/Dashboard/AllUsers`,{
       method : "GET"  
       }).then((response) => response.json())
         .then(data => setalllUsersData(data))
@@ -100,7 +117,7 @@ const DeleteThisUser = async (deletingThisUser) =>{
 
   console.log("Deleting... ",deletingThisUser);
 
-  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteUser",{
+  const result=  await  fetch(`${API_URL}/Dashboard/DeleteUser`,{
       method : "POST",
       body: JSON.stringify({
                             id  :deletingThisUser._id,
@@ -130,7 +147,7 @@ const UpdatingUser = async (values) =>{
   console.log("Updating... ",values);
  
   console.log(values);
-  const result=  await  fetch("http://localhost:9000/Dashboard/EditUser",{
+  const result=  await  fetch(`${API_URL}/Dashboard/EditUser`,{
       method : "POST",
       body: JSON.stringify({
                             id          :values.ID,
@@ -165,7 +182,7 @@ const handleSearch = async () =>{
   if(values.SearchUser)
   {
 
-      const result=  await  fetch("http://localhost:9000/Dashboard/SearchUsers",{
+      const result=  await  fetch(`${API_URL}/Dashboard/SearchUsers`,{
           method : "POST",
           body: JSON.stringify({
                                 searchThisUser:values.SearchUser

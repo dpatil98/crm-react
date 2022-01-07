@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 
 const formValidation =  yup.object({
@@ -15,6 +16,7 @@ const formValidation =  yup.object({
                             .max(13,"You Forgot To Add Status😱"),
   Date: yup.date().required("Please Enter Valid date")
 });
+
 
 
 export function Leads() {
@@ -49,11 +51,27 @@ export function Leads() {
     
     });
 
+  //using useEffect to Show errors
+  useEffect( async ()=>{ 
+
+      if(errors)
+    {
+      for(let keys in errors)
+      {
+        alert(errors[keys]);
+      }     
+    }
+    
+  },[errors]);
+
+    
+
     //useEfeect for gettig all leads only once
   useEffect( async ()=>{ 
 
       console.log("Getting Leads");
-      await fetch("http://localhost:9000/Dashboard/Leads",{
+      await fetch(`${API_URL}/Dashboard/Leads`,{
+      // await fetch(`${API_URL}/Dashboard/Leads`,{
       method : "GET"  
       }).then((response) => response.json())
         .then(data => setCustomers(data))
@@ -72,6 +90,8 @@ export function Leads() {
     
   },[]);
 
+
+
   //useEffectfor setting default values to formik
   useEffect(()=>{ 
     
@@ -88,12 +108,13 @@ export function Leads() {
     }
 },[currentValues]);
 
+
 const DeleteThisLead = async (currentLead) =>{
 
 
   console.log("Deleting... ",currentLead);
 
-  const result=  await  fetch("http://localhost:9000/Dashboard/DeleteLead",{
+  const result=  await  fetch(`${API_URL}/Dashboard/DeleteLead`,{
       method : "POST",
       body: JSON.stringify({
                             id  :currentLead._id,
@@ -123,13 +144,14 @@ const DeleteThisLead = async (currentLead) =>{
 
 };
 
+
 const updatingLead = async (values) =>{
 
 
   console.log("Updating... ",values);
  
   console.log(values);
-  const result=  await  fetch("http://localhost:9000/Dashboard/EditLead",{
+  const result=  await  fetch(`${API_URL}/Dashboard/EditLead`,{
       method : "POST",
       body: JSON.stringify({
                             id          :values.ID,
@@ -168,7 +190,7 @@ const handleSearch = async () =>{
   if(values.SearchLead)
   {
 
-      const result=  await  fetch("http://localhost:9000/Dashboard/SearchLead",{
+      const result=  await  fetch(`${API_URL}/Dashboard/SearchLead`,{
           method : "POST",
           body: JSON.stringify({
                                 searchThisLead:values.SearchLead

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import * as yup from 'yup';
+import { API_URL } from "../global-constants";
 
 const formValidation =  yup.object({
 
@@ -59,7 +60,7 @@ const registration = async (values) =>{
              
               //key is not used while makin obj bcus both key and value name are same
               console.log(values);
-              const result=  await  fetch("http://localhost:9000/Dashboard/AddContact",{
+              const result=  await  fetch(`${API_URL}/Dashboard/AddContact`,{
                   method : "POST",
                   body: JSON.stringify({firstName  :values.FirstName,
                                         lastName   :values.LastName,

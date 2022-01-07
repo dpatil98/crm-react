@@ -1,8 +1,10 @@
 import { useFormik } from 'formik';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import {Link ,useHistory  } from 'react-router-dom' ;
 import * as yup from 'yup';
+import { API_URL } from '../global-constants';
 
 
 
@@ -19,10 +21,21 @@ const formValidation =  yup.object({
 
 export function LoginForm() {
 
+  
 
   const [cookies, setCookie ,removeCookie] = useCookies();
   const history = useHistory();
   const [message,  setMessage] = useState(null);
+
+ 
+  useEffect(()=>{ 
+    
+    alert(`For The Demo Purpose Email: sample@sample.com
+  Password : password  |(for all users)`);
+},[]);
+
+
+
 
   console.log("User Before Login",cookies.user);
   const {handleSubmit , handleChange , handleBlur, values, errors, touched}= useFormik({
@@ -43,7 +56,7 @@ export function LoginForm() {
       console.log("Logging In",values);
   
       
-      let re= await fetch("http://localhost:9000/users/Login",{
+      let re= await fetch(`${API_URL}/users/Login`,{
           method : "POST",
           body: JSON.stringify({
                                 password   :values.password,                          
@@ -74,7 +87,7 @@ export function LoginForm() {
           
     };
 
-
+   
 
   return (
 
