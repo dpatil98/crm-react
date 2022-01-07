@@ -108,7 +108,7 @@ export function ForgotPassword() {
 
       </form>
       { (link) ? <Alert variant={'warning'}>
-                     {linkMsg } <Alert.Link className='text-primary' href={link}>Click Here</Alert.Link>
+                     {linkMsg } <Alert.Link className='text-primay' href={link}>Click Here</Alert.Link>
                   </Alert> 
                
                : null }
